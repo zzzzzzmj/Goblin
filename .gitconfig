@@ -33,6 +33,8 @@
     squash = rebase HEAD~2 -i
     changed = update-index --no-assume-unchanged
     unchanged = update-index --assume-unchanged
+    sv = stash
+    spop = stash pop
 [core]
     editor = vim
     autocrlf = false

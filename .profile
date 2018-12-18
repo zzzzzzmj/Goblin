@@ -18,13 +18,17 @@ alias hg='cd ~/zaihui/hunger-game && sb && cd src'
 alias blog='cd ~/self/zzzzzzmj.github.io'
 alias cgd='hexo clean && hexo g && hexo d'
 
-
 alias self='cd ~/self/ && ls'
 alias zaihui='cd ~/zaihui && ls'
 alias hes='cd ~/zaihui/hestia && pipenv shell'
+alias fst="cd ~/zaihui/forseti-be"
 
-#export
-export ZMJ='admin'
-export PATH=${ZMJ}:${PATH}
+alias pf="pipenv run fab"
 
+alias yapf_hg='yapf -d -i forseti/takeaway --recursive'
+
+# docker related
+alias dc="docker-compose"
+alias dps="docker ps"
+dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
 
