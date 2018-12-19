@@ -18,7 +18,6 @@
     last = log -1 HEAD
     logg = log --graph --decorate --oneline --abbrev-commit --all
     logs = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    mgf = merge --ff-only
     p = push
     pf = push -f
     puo = push -u origin
@@ -31,10 +30,9 @@
     rhd = reset --hard z/dev
     rroo = remote rename origin o
     squash = rebase HEAD~2 -i
-    changed = update-index --no-assume-unchanged
-    unchanged = update-index --assume-unchanged
-    sv = stash
+    sl = stash list
     spop = stash pop
+    sshow = stash show -p stash@{0}
 [core]
     editor = vim
     autocrlf = false
@@ -44,7 +42,7 @@
 [merge]
     tool = vimdiff
 [push]
-    mail = wzmmmmj@gmail.com
+    mail =wzmmmmj@gmail.com
 [user]
-	name = ZmJ
-	email =wzmmmmj@gmail.com
+	name = wzmmmmj
+    email =wzmmmmj@gmail.com
