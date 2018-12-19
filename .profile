@@ -25,7 +25,7 @@ alias fst="cd ~/zaihui/forseti-be"
 
 alias pf="pipenv run fab"
 
-alias yapf_hg='yapf -d -i forseti/takeaway --recursive'
+alias yapf_hg='yapf -r -i forseti/takeaway'
 
 # docker related
 alias dc="docker-compose"
