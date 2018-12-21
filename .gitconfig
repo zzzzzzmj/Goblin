@@ -30,9 +30,11 @@
     rhd = reset --hard z/dev
     rroo = remote rename origin o
     squash = rebase HEAD~2 -i
-    sl = stash list
+    save = stash
+    slist = stash list
     spop = stash pop
     sshow = stash show -p stash@{0}
+    sdrop = stash drop
 [core]
     editor = vim
     autocrlf = false
