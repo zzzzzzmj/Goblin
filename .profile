@@ -28,7 +28,10 @@ alias pf="pipenv run fab"
 alias yapf_hg='yapf -r -i forseti/takeaway'
 
 # docker related
+alias d='docker'
+alias dl='docker images'
+alias db='docker build'
+alias dr='docker run -it'
 alias dc="docker-compose"
-alias dps="docker ps"
-dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
+alias dps="docker ps"lias dps="docker ps"
 
