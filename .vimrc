@@ -1,6 +1,6 @@
 set nocompatible              
 
-" Vundle 插件管理
+" Vundle
 filetype off                 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -18,8 +18,6 @@ syntax enable
 syntax on
 
 " indentLine setting
-map <leader>i :IndentLinesToggle<cr>
-" \+i 关闭缩进指示线，再按开启
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 

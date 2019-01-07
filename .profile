@@ -13,25 +13,30 @@ alias redis-server='redis-server /usr/local/etc/redis.conf'
 
 alias gsh='ssh -t gate ssh -t'
 alias vim-install='vim +PluginInstall +qall'
+alias cgd='hexo clean && hexo g && hexo d'
+
 alias ygg='cd ~/zaihui/server && sb && cd ygg'
 alias hg='cd ~/zaihui/hunger-game && sb && cd src'
 alias blog='cd ~/self/zzzzzzmj.github.io'
-alias cgd='hexo clean && hexo g && hexo d'
+alias fst="cd ~/zaihui/forseti-be && pipenv shell"
 
 alias self='cd ~/self/ && ls'
 alias zaihui='cd ~/zaihui && ls'
-alias hes='cd ~/zaihui/hestia && pipenv shell'
-alias fst="cd ~/zaihui/forseti-be"
 
 alias pf="pipenv run fab"
+alias yapf_hg='yapf -r -d  forseti/takeaway'
 
-alias yapf_hg='yapf -r -i forseti/takeaway'
-
-# docker related
+# docker
 alias d='docker'
 alias dl='docker images'
-alias db='docker build'
 alias dr='docker run -it'
+alias db='docker build'
 alias dc="docker-compose"
-alias dps="docker ps"lias dps="docker ps"
+alias dps="docker ps"
 
+# export 
+
+# JAVA
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$JAVA_HOME:$PATH
+export PATH=/Users/a1/opt/apache-maven/bin:$PATH
