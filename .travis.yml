@@ -2,6 +2,9 @@ language:
     bash
 
 script: 
-    true
+    bash -c "$(curl -fssL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/setup.sh)"
+
+notifications:
+    email: false
 
 
