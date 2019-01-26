@@ -34,9 +34,5 @@ alias db='docker build'
 alias dc="docker-compose"
 alias dps="docker ps"
 
-# export 
-
-# JAVA
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=$JAVA_HOME:$PATH
-export PATH=/Users/a1/opt/apache-maven/bin:$PATH
+# func
+alias dbr='del(){ git br | grep $1 | xargs git br -D;};del'
