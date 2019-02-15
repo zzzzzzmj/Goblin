@@ -36,3 +36,5 @@ alias dps="docker ps"
 
 # func
 alias dbr='del(){ git br | grep $1 | xargs git br -D;};del'
+alias rb='rb(){ git fetch $1 && git rebase $1/$2;};rb'
+
