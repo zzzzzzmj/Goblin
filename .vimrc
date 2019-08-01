@@ -1,64 +1,56 @@
-set nocompatible              
-
-" Vundle 插件管理
-filetype off                 
+filetype off
+syntax on
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'powerline/powerline'
-Plugin 'Yggdroot/indentLine'
-Plugin 'rizzatti/dash.vim'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
-Plugin 'nvie/vim-flake8'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'mhinz/vim-startify'
+Plugin 'yggdroot/indentLine'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'tpope/vim-surround'
 
-call vundle#end() 
-" filetype on
-filetype plugin indent on 
+call vundle#end()
+filetype plugin indent on
+filetype plugin on
 
-syntax enable
+""""""""""""""""""""""""""""""""""""""
 
-let python_highlight_all=1 
-syntax on
+" color schema
+set background=dark
+colorscheme hybrid
 
-" indentLine setting
-" let g:indentLine_setColors = 0
-let g:indentLine_char = '¦'
-let g:indentLine_fileType = ['python']
+let mapleader = ","
+let maplocalleader = "-"
 
-" SimpylFold setting
-let g:SimpylFold_docstring_preview=1
-
-" nerfreee setting
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-" index
 set nu
 set relativenumber
-
-" tab
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set expandtab
 set autoindent
 set shell=/bin/bash
-
-" other
 set hlsearch
 set incsearch
 set smartindent
 set encoding=utf-8
-set clipboard=unnamed
-" set cursorline
+set backspace=2
 
-" Enable floding
+" fold
 set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za
+set foldlevel=5
+
+noremap <space> za
+nnoremap <c-u> viw<s-u>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 
+" nerdtree
+let NERDTreeIgnore=['\.pyc$', '\~$', '\.idea$'] "ignore files in NERDTree
+nnoremap <c-e> :NERDTreeToggle<cr>
+
+" statusline
