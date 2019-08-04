@@ -43,8 +43,12 @@ set backspace=2
 set foldmethod=indent
 set foldlevel=5
 
+" copy/paste
+set clipboard=unnamed
+
 noremap <space> za
 nnoremap <c-u> viw<s-u>
+nnoremap <c-y> viwy
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
