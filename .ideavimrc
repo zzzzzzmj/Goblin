@@ -1,0 +1,14 @@
+" index
+set number
+set relativenumber
+
+" other
+set hlsearch
+set incsearch
+set smartindent
+
+" ctrl c/v
+set clipboard=unnamed
+
+" surround
+set surround

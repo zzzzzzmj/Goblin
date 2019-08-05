@@ -8,6 +8,7 @@ curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.tmux.conf >
 curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.profile > ~/.profile
 curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.bash_profile > ~/.bash_profile
 curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.gitconfig > ~/.gitconfig 
-#  curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.vimrc > ~/.vimrc
+curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.vimrc > ~/.vimrc
+curl -fsSL https://raw.githubusercontent.com/zzzzzzmj/Goblin/master/.ideavimrc > ~/.ideavimrc
 
 echo 'Install Done!'
