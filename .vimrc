@@ -19,6 +19,7 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tpope/vim-repeat'
 
 call vundle#end()
 " filetype on
@@ -69,9 +70,13 @@ nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <leader>\ :%s/\s\+$//g<cr>
 nnoremap <c-u> viw<s-u>
 nnoremap <c-y> viwy
+vnoremap <leader>/  <c-v>I# <esc><esc>
 
 
 set guifont=Fira\ Code:h14
+
+"""""""""""""""""""""""""""""""""
+
 " gui
 if has('win32')
     set guifont=Consolas:h14
@@ -80,4 +85,11 @@ elseif has('gui_macvim')
 else
     set guifont=Monospace\ :h14
 endif
+
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
+set guioptions-=m
+set guioptions-=T
 
