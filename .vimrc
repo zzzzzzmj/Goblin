@@ -3,8 +3,7 @@ let maplocalleader = "-"
 
 set nocompatible
 
-"""""""""""""""""""""""""""""""
-" Vundle
+" VIM Plugin Vundle {{{
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -26,8 +25,7 @@ call vundle#end()
 filetype plugin indent on
 syntax enable
 syntax on
-
-"""""""""""""""""""""""""""""""
+" }}}
 
 set background=dark
 colorscheme hybrid
@@ -73,11 +71,20 @@ nnoremap <c-y> viwy
 vnoremap <leader>/  <c-v>I# <esc><esc>
 
 
-set guifont=Fira\ Code:h14
+" VIM flod {{{
+set foldmethod=indent
+set foldlevel=5
+set foldlevelstart=0
 
-"""""""""""""""""""""""""""""""""
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
 
-" gui
+" }}}
+
+
+" GUI config {{{
 if has('win32')
     set guifont=Consolas:h14
 elseif has('gui_macvim')
@@ -93,3 +100,4 @@ set guioptions-=R
 set guioptions-=m
 set guioptions-=T
 
+" }}}
