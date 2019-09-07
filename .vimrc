@@ -19,9 +19,14 @@ Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
+Plugin 'stephpy/vim-yaml'
+Plugin 'scrooloose/syntastic'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
-" filetype on
+
 filetype plugin indent on
 syntax enable
 syntax on
@@ -33,10 +38,15 @@ colorscheme hybrid
 " NERDtree setting
 let NERDTreeIgnore=['\.pyc$', '\~$', '\.*__pycache__*$', '\.idea*$']
 nnoremap <c-e> :NERDTreeToggle<CR>
+nnoremap <leader>r :NERDTreeFind<CR>
+
+autocmd bufenter * lcd %:p:h
+" only nerdtree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
 " index
-set nu
+set number
 set relativenumber
 
 " tab
@@ -61,20 +71,33 @@ set statusline=2
 " ctrl c/v
 set clipboard=unnamed
 
-noremap <space> za
+nnoremap <space> za
+inoremap jj <esc>
 
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <leader>\ :%s/\s\+$//g<cr>
 nnoremap <c-u> viw<s-u>
 nnoremap <c-y> viwy
-vnoremap <leader>/  <c-v>I# <esc><esc>
 
+" comment
+if has('win32')
+    nnoremap <c-/> :Commentary<cr>
+    vnoremap <c-/> :Commentary<cr>
+else
+    nnoremap <c-_> :Commentary<cr>
+    vnoremap <c-_> :Commentary<cr>
+endif
 
-" VIM flod {{{
+" move window
+nnoremap <c-h> <c-w><c-h>
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+
+"" VIM flod {{{
 set foldmethod=indent
 set foldlevel=5
-set foldlevelstart=0
 
 augroup filetype_vim
     autocmd!
@@ -83,6 +106,27 @@ augroup END
 
 " }}}
 
+" VIM Buffer {{{
+set wildmenu wildmode=full
+set wildchar=<Tab>
+set wildcharm=<c-z>
+
+" }}}
+
+nnoremap <leader>n :b <c-z>
+
+" go to defined and back
+nnoremap <c-n> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" syntastic {{{
+nnoremap <leader>e :SyntasticCheck<cr>
+let python_highlight_all=1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args = '--max-line=120'
+syntax on
+
+" }}}
 
 " GUI config {{{
 if has('win32')
@@ -98,6 +142,7 @@ set guioptions-=L
 set guioptions-=r
 set guioptions-=R
 set guioptions-=m
-set guioptions-=T
+set guioptions-=T    
 
 " }}}
+

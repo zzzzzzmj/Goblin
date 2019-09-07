@@ -1,14 +1,12 @@
 [alias]
-    d = diff
-    co = checkout
     br = branch
     brd = branch -D
-    pod = push origin --delete
-    st = status
+    co = checkout
     ci = commit
     cia = commit --all
     cim = commit --amend
     cima = commit --amend --all
+    d = diff
     dfs = diff --staged
     dl = diff HEAD^
     f = fetch --tags
@@ -17,7 +15,8 @@
     logs = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     p = push
     pf = push -f
-    puo = push -u origin
+    puo = push -u o
+    pod = push origin --delete
     puz = push -u z
     rb = rebase
     rbc = rebase --continue
@@ -27,8 +26,8 @@
     rh = reset --hard
     rhd = reset --hard z/dev
     rroo = remote rename origin o
+    st = status
     squash = rebase HEAD~2 -i
-    save = stash
     slist = stash list
     spop = stash pop
     sshow = stash show -p stash@{0}
@@ -42,7 +41,7 @@
 [merge]
     tool = vimdiff
 [push]
-    mail =wzmmmmj@gmail.com
+    mail = xxxxx@gmail.com
 [user]
-	name = wzmmmmj
-    email =wzmmmmj@gmail.com
+    name = xxxxx
+    email = xxxxxgmail.com
