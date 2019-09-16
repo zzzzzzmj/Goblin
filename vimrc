@@ -21,8 +21,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'stephpy/vim-yaml'
-Plugin 'scrooloose/syntastic'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
@@ -45,19 +45,15 @@ autocmd bufenter * lcd %:p:h
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
-" index
+" other
 set number
 set relativenumber
-
-" tab
 set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set expandtab
 set autoindent
 set shell=/bin/bash
-
-" other
 set hlsearch
 set incsearch
 set smartindent
@@ -95,6 +91,19 @@ nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 
+if has('win32')
+    nnoremap <M-j> :resize +5<cr>
+    nnoremap <M-k> :resize -5<cr>
+    nnoremap <M-h> :vertical resize -5<cr>
+    nnoremap <M-l> :vertical resize +5<cr>
+else
+    nnoremap J :resize +5<cr>
+    nnoremap K :resize -5<cr>
+    nnoremap H :vertical resize -5<cr>
+    nnoremap L :vertical resize +5<cr>
+endif
+
+
 "" VIM flod {{{
 set foldmethod=indent
 set foldlevel=5
@@ -115,9 +124,6 @@ set wildcharm=<c-z>
 
 nnoremap <leader>n :b <c-z>
 
-" go to defined and back
-nnoremap <c-n> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 " syntastic {{{
 nnoremap <leader>e :SyntasticCheck<cr>
 let python_highlight_all=1
@@ -134,15 +140,19 @@ if has('win32')
 elseif has('gui_macvim')
     set guifont=Fira\ Code:h14
 else
-    set guifont=Monospace\ :h14
+    set guifont=Consolas:h14
 endif
+
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
 
 set guioptions-=l
 set guioptions-=L
 set guioptions-=r
 set guioptions-=R
 set guioptions-=m
-set guioptions-=T    
+set guioptions-=T
+set guioptions-=e
 
 " }}}
 
