@@ -3,29 +3,30 @@ let maplocalleader = "-"
 
 set nocompatible
 
-" VIM Plugin Vundle {{{
+" VIM Plug {{{
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if has('win32')
+    call plug#begin()
+else
+    call plug#begin('~/.vim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'mhinz/vim-startify'
-Plugin 'yggdroot/indentLine'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'tpope/vim-surround'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-commentary'
-Plugin 'stephpy/vim-yaml'
-" Plugin 'scrooloose/syntastic'
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'mhinz/vim-startify'
+Plug 'yggdroot/indentLine'
+Plug 'w0ng/vim-hybrid'
+Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'stephpy/vim-yaml'
+Plug 'tpope/vim-fugitive'
+Plug 'python-mode/python-mode'
+Plug 'fatih/vim-go'
 
-call vundle#end()
+call plug#end()
 
 filetype plugin indent on
 syntax enable
@@ -36,7 +37,7 @@ set background=dark
 colorscheme hybrid
 
 " NERDtree setting
-let NERDTreeIgnore=['\.pyc$', '\~$', '\.*__pycache__*$', '\.idea*$']
+let NERDTreeIgnore=['\.pyc$', '\~$', '*__pycache__', '.idea']
 nnoremap <c-e> :NERDTreeToggle<CR>
 nnoremap <leader>r :NERDTreeFind<CR>
 
@@ -123,16 +124,6 @@ set wildcharm=<c-z>
 " }}}
 
 nnoremap <leader>n :b <c-z>
-
-" syntastic {{{
-nnoremap <leader>e :SyntasticCheck<cr>
-let python_highlight_all=1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_args = '--max-line=120'
-syntax on
-
-" }}}
 
 " GUI config {{{
 if has('win32')
