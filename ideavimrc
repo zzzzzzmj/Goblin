@@ -14,4 +14,3 @@ set clipboard=unnamed
 " surround
 set surround
 
-nnoremap <c-y> viwy
