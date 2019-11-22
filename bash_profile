@@ -7,8 +7,8 @@ export PYTHON_CONFIGURE_OPTS="--enable-framework"
 export PATH="$PYTHON_CONFIGURE_OPTS:$HOME/.pyenv/bin:$PATH"
 
 # GO
-export GOPATH="$HOME/go"
+export GOPATH="$HOME/gopath"
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
-
 export GO111MODULE=on
 export GOPROXY=https://goproxy.cn
+
