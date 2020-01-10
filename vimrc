@@ -1,13 +1,10 @@
-map  <Left> <Nop>
-map  <Right> <Nop>
 map  <Down> <Nop>
 map  <Up> <Nop>
-imap <Esc> <Nop>
+map  <Left> <Nop>
+map  <Right> <Nop>
 inoremap jj <Esc>
 
-
 let mapleader = ","
-let maplocalleader = "-"
 
 set nocompatible
 
@@ -27,45 +24,33 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'dense-analysis/ale'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'mileszs/ack.vim'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 " language server
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'ryanolsonx/vim-lsp-python'
 
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-  Plug 'junegunn/fzf.vim'
-endif
 
 call plug#end()
 filetype plugin indent on
 syntax enable
 syntax on
 
-
-" fzf
-nmap <c-p> :Files<CR>
-nmap <c-b> :Buffers<CR>
-
-" ag
-map <leader>f :Ack<space>
-let g:ackprg = 'ag --nogroup --nocolor --column'
+" Leaderf
+nmap <c-p> :Leaderf file --popup<CR>
+nmap <leader>f :Leaderf line --popup<CR>
+nmap <leader>F :Leaderf rg --popup<CR>
 
 " lsp
-if executable('pyls')
+if executable('pyls') " pip install python-language-server
     au User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
         \ 'cmd': {server_info->['pyls']},
         \ 'whitelist': ['python'],
         \ })
+    au FileType python noremap gd :LspDefinition<cr>
 endif
 
 if executable('gopls')
@@ -77,6 +62,19 @@ if executable('gopls')
     autocmd BufWritePre *.go LspDocumentFormatSync
 endif
 
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <f2> <plug>(lsp-rename)
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
 set completeopt+=preview
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
@@ -86,6 +84,7 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 
+let g:lsp_diagnostics_enabled = 0
 
 set background=dark
 colorscheme hybrid
@@ -93,22 +92,19 @@ colorscheme hybrid
 " NERDtree setting
 let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__', '.idea']
 let NERDTreeChDirMode=1
-
-nnoremap <c-r> :NERDTreeToggle<CR>
-nnoremap <leader>r :NERDTreeFind<CR>
-
-autocmd bufenter * lcd %:p:h
+let NERDTreeShowBookmarks=1
+nnoremap <leader>r :NERDTreeToggle<CR>
+autocmd bufenter * silent! lcd %:p:h
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Ale
 autocmd FileType python,go noremap <buffer> <F7> :ALEFix<cr>
 autocmd FileType python,go noremap <buffer> <F8> :ALEToggle<cr>
 let g:ale_fixers = {
- \    'python': ['isort', 'black', 'remove_trailing_lines', 'trim_whitespace']
+ \    'python': ['isort', 'black', 'remove_trailing_lines', 'trim_whitespace'],
  \}
 let g:ale_linters = {
 \     'python': ['flake8'],
-\     'go': ['gofmt', 'golint'],
 \}
 let g:ale_sign_error = '✗'
 
@@ -192,11 +188,9 @@ noremap <leader>n :b <c-z>
 nnoremap H :tabp<cr>
 nnoremap L :tabn<cr>
 
-nnoremap <leader>n :b <c-z>
 vmap <leader>c "+yy
 
 " vim-go
-
 function! s:build_go_files()
   let l:file = expand('%')
   if l:file =~# '^\f\+_test\.go$'
@@ -233,7 +227,6 @@ augroup completion_preview_close
     autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
   endif
 augroup END
-" au FileType go setlocal omnifunc=go#complete#GocodeComplete
 
 augroup go
 
@@ -264,9 +257,6 @@ augroup go
 
 augroup END
 
-" snippet
-let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
-let g:UltiSnipsExpandTrigger="<c-j>"
 
 " GUI config
 if has('win32')
