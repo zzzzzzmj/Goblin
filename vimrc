@@ -2,19 +2,19 @@ map  <Down> <Nop>
 map  <Up> <Nop>
 map  <Left> <Nop>
 map  <Right> <Nop>
-inoremap jj <Esc>
+inoremap jk <Esc>
 
 let mapleader = ","
-
 set nocompatible
 
 " VIM Plug
 filetype off
 call plug#begin('~/.vim/plugged')
-
 Plug 'scrooloose/nerdtree'
-Plug 'itchyny/lightline.vim'
 Plug 'w0ng/vim-hybrid'
+Plug 'mhinz/vim-startify'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'yggdroot/indentLine'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -32,16 +32,17 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 
-
 call plug#end()
 filetype plugin indent on
 syntax enable
 syntax on
 
 " Leaderf
-nmap <c-p> :Leaderf file --popup<CR>
-nmap <leader>f :Leaderf line --popup<CR>
-nmap <leader>F :Leaderf rg --popup<CR>
+nnoremap <c-p> :Leaderf! file --regexMode --popup<CR>
+nnoremap <leader>f :Leaderf! line --regexMode --popup<CR>
+nnoremap rc :<C-U>Leaderf! rg --recall<CR>
+" macvim don't have results use leaderf rg
+noremap <leader>F :<C-U><C-R>=printf("Leaderf! rg -e %s", expand("<cword>"))<CR>
 
 " lsp
 if executable('pyls') " pip install python-language-server
@@ -71,7 +72,6 @@ endfunction
 
 augroup lsp_install
     au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
@@ -86,15 +86,19 @@ inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 
 let g:lsp_diagnostics_enabled = 0
 
-set background=dark
 colorscheme hybrid
+set background=dark
 
 " NERDtree setting
-let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__', '.idea']
+let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__', '.idea', '.git', '.vscode']
 let NERDTreeChDirMode=1
 let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
+let NERDTreeRemoveFileCmd='rm '
+let NERDTreeAutoDeleteBuffer=1
+
 nnoremap <leader>r :NERDTreeToggle<CR>
-autocmd bufenter * silent! lcd %:p:h
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Ale
@@ -107,41 +111,41 @@ let g:ale_linters = {
 \     'python': ['flake8'],
 \}
 let g:ale_sign_error = '✗'
-
+let g:ale_python_black_options='--line-length=120'
+let g:ale_python_flake8_options='--max-line-length=120'
 
 " other
-set number
-set relativenumber
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-set expandtab
 set autoindent
-set shell=/bin/bash
-set hlsearch
-set incsearch
-set smartindent
-set encoding=utf-8
 set backspace=2
 set cursorline
+set encoding=utf-8
+set expandtab
+set hlsearch
+set incsearch
+set number
+set relativenumber
+set shell=/bin/bash
+set shiftwidth=4
+set smartindent
+set softtabstop=4
+set tabstop=4
 
-" statusline
-set laststatus=2
-let g:lightline = {
-\     'colorscheme': 'seoul256',
-\     'active': {
-\        'left': [ 
-\             [ 'mode', 'paste' ],
-\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-\     },
-\     'component_function': {'gitbranch': 'fugitive#head'},
-\ }
+" airline
+" let g:airline_theme='minimalist'
+let g:airline_theme='bubblegum'
 
-" ctrl c/v
-set clipboard=unnamed
+" airline-customization
+let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 nnoremap <space> za
-
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <c-y> viwy
@@ -150,8 +154,11 @@ nnoremap <c-y> viwy
 if has('win32')
     nnoremap <c-/> :Commentary<cr>
     vnoremap <c-/> :Commentary<cr>
-else 
-    nnoremap <c-_> :Commentary<cr> 
+elseif has("gui_running")
+    nnoremap <leader>z :Commentary<cr>
+    vnoremap <leader>z :Commentary<cr>
+else
+    nnoremap <c-_> :Commentary<cr>
     vnoremap <c-_> :Commentary<cr>
 endif
 
@@ -174,7 +181,7 @@ else
 endif
 
 
-" VIM flod 
+" VIM flod
 set foldmethod=indent
 set foldlevel=5
 
@@ -182,13 +189,14 @@ set foldlevel=5
 set wildmenu wildmode=full
 set wildchar=<Tab>
 set wildcharm=<c-z>
-noremap <leader>n :b <c-z>
-
-" VIM tab
-nnoremap H :tabp<cr>
-nnoremap L :tabn<cr>
+noremap <leader>b :b <c-z>
+" noremap <c-w> :bp|bd#<cr>
+nnoremap H :bp<cr>
+nnoremap L :bn<cr>
 
 vmap <leader>c "+yy
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
 
 " vim-go
 function! s:build_go_files()
@@ -206,67 +214,7 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_autosave = 1
 
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_space_tab_error = 0
-let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_extra_types = 1
-
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
-
-augroup completion_preview_close
-  autocmd!
-  if v:version > 703 || v:version == 703 && has('patch598')
-    autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
-  endif
-augroup END
-
-augroup go
-
-  au!
-  au FileType go noremap <buffer> <F7> :GoFmt<cr>
-  au FileType go noremap gd :GoDef<cr>
-  au FileType go noremap <c-n> :GoReferrers<cr>
-
-  au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
-
-  au FileType go nmap <Leader>dd <Plug>(go-def-vertical)
-  au FileType go nmap <Leader>dv <Plug>(go-doc-vertical)
-  au FileType go nmap <Leader>db <Plug>(go-doc-browser)
-
-  au FileType go nmap <leader>r  <Plug>(go-run)
-  au FileType go nmap <leader>t  <Plug>(go-test)
-  au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
-  au FileType go nmap <Leader>i <Plug>(go-info)
-  au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
-  au FileType go nmap <C-g> :GoDecls<cr>
-  au FileType go nmap <leader>dr :GoDeclsDir<cr>
-  au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
-  au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
-  au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
-
-augroup END
-
-
 " GUI config
-if has('win32')
-    set guifont=Consolas:h14
-elseif has('gui_macvim')
-    set guifont=Fira\ Code:h14
-else
-    set guifont=Consolas:h14
-endif
-
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
@@ -277,5 +225,12 @@ set guioptions-=R
 set guioptions-=m
 set guioptions-=T
 set guioptions-=e
+if has('gui_running')
+    set macligatures
+    set guifont=Fira\ Code:h14
+endif
 
 autocmd! BufWritePost ~/.vimrc source ~/.vimrc
+
+" ctrl c/v
+set clipboard=unnamed
