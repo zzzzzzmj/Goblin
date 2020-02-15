@@ -1,1 +1,23 @@
-/Users/a1/.ideavimrc
+let mapleader = ","
+
+set number
+set relativenumber
+set hlsearch
+set incsearch
+set smartindent
+
+set clipboard=unnamed
+
+set surround
+set commentary
+
+nnoremap <c-y> viwy
+
+nmap go :action MoveEditorToOppositeTabGroup<CR>
+
+map  <Left> <Nop>
+map  <Right> <Nop>
+map  <Down> <Nop>
+map  <Up> <Nop>
+inoremap <Esc> <Nop>
+inoremap jk <Esc>
