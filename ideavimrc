@@ -1,18 +1,1 @@
-let mapleader = ,
-" index
-set number
-set relativenumber
-
-" other
-set hlsearch
-set incsearch
-set smartindent
-
-" ctrl c/v
-set clipboard=unnamed
-
-" surround
-set surround
-
-" windows
-nmap go :action MoveEditorToOppositeTabGroup<CR>
+/Users/a1/.ideavimrc
