@@ -4,7 +4,7 @@ map  <Left> <Nop>
 map  <Right> <Nop>
 inoremap jk <Esc>
 
-let mapleader = ","
+let mapleader = " "
 set nocompatible
 
 " vim plug
@@ -76,7 +76,7 @@ set background=dark
 
 " NERDtree
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git', '.idea', '.vscode']
-let NERDTreeChDirMode=1
+let NERDTreeChDirMode=3
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeMinimalUI=1
@@ -86,7 +86,9 @@ let g:nerdtree_tabs_focus_on_files=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
 nnoremap <space>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+autocmd BufEnter * silent! :NERDTreeCWD
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
@@ -130,6 +132,7 @@ nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <c-y> viwy
 
+
 " airline
 let g:airline_theme='violet'
 let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
@@ -170,7 +173,7 @@ set foldlevel=5
 set wildmenu wildmode=full
 set wildchar=<Tab>
 set wildcharm=<c-z>
-noremap <space>w :bp<cr>:bd #<cr>
+noremap <leader>dw :bp<cr>:bd #<cr>
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
 
@@ -178,7 +181,7 @@ nnoremap L :bn<cr>
 noremap gt :tabn<cr>
 noremap gT :tabp<cr>
 
-vmap <leader>c "+yy
+vnoremap <leader>c "+yy
 nnoremap <silent><leader>w :w<cr>
 vnoremap <silent><leader>w <esc>:<leader>w<cr>
 nnoremap <leader>q :q<cr>
@@ -240,8 +243,6 @@ augroup go
   au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
   au FileType go nmap <C-g> :GoDecls<cr>
   au FileType go nmap <leader>dr :GoDeclsDir<cr>
-  au FileType go imap <C-g> <esc>:<C-u>GoDecls<cr>
-  au FileType go imap <leader>dr <esc>:<C-u>GoDeclsDir<cr>
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
 augroup END
@@ -346,7 +347,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format-selected)
 
 augroup mygroup
@@ -390,18 +390,18 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" " Manage extensions
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" " Show commands
+" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" " Find symbol of current document
+" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" " Search workspace symbols
+" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" " Do default action for next item.
+" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" " Do default action for previous item.
+" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" " Resume latest coc list
+" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
