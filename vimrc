@@ -7,17 +7,17 @@ inoremap jk <Esc>
 let mapleader = " "
 set nocompatible
 
-" vim plug
 filetype off
 call plug#begin('~/.vim/plugged')
 
 Plug 'doums/darcula'
 Plug 'mhinz/vim-startify'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'yggdroot/indentLine'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
 
-Plug 'editorconfig/editorconfig-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -32,42 +32,26 @@ Plug 'liuchengxu/vista.vim'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'yggdroot/indentLine'
 
 " search
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 
 " makrdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 
-
 call plug#end()
 filetype plugin indent on
 syntax enable
 syntax on
 
-" fzf
-nnoremap <silent> <leader>F :Rg<cr>
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-
 " Leaderf
-nnoremap <c-p> :Leaderf! file --regexMode --popup<CR>
-nnoremap <leader>f :Leaderf! line --regexMode --popup<CR>
-nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
+nnoremap <c-p> :Leaderf file --popup<CR>
+nnoremap <leader>f :Leaderf line --popup<CR>
+nnoremap <leader>F :Leaderf rg --popup<CR>
+nnoremap <leader>rc :<C-U>Leaderf rg --recall<CR>
 
 colorscheme darcula
 highlight Cursor guibg=#7F70F0
@@ -85,10 +69,10 @@ let NERDTreeAutoDeleteBuffer=1
 let g:nerdtree_tabs_focus_on_files=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
-nnoremap <space>n :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>m :NERDTreeCWD<cr>
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-autocmd BufEnter * silent! :NERDTreeCWD
+" autocmd BufEnter * silent! :lcd%:p:h
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
@@ -130,34 +114,80 @@ set clipboard=unnamed
 
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
-nnoremap <c-y> viwy
+nnoremap <leader>y viwy
 
 
 " airline
-let g:airline_theme='violet'
-let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+" let g:airline_theme='violet'
+" let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ''
+" let g:airline#extensions#tabline#left_alt_sep = ''
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
+      \   'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos'],
+      \             [ 'lineinfo' ],
+      \             [ 'fileformat', 'fileencoding', 'filetype' ] ],
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction'
+      \ },
+      \ 'component': {'lineinfo': ' %3l:%-2v'}
+      \ }
+
+
+let g:lightline.separator = {'left': '', 'right': ''}
+let g:lightline.subseparator = { 'left': '', 'right': '' }
+let g:lightline.tabline = {'left': [['buffers']], 'right': [['tabs']]}
+let g:lightline#bufferline#shorten_path = 1
+set showtabline=2
+set noshowmode
+set laststatus=2
+if !has('gui_running')
+  set t_Co=256
+endif
+
+let g:lightline.component_expand = {
+      \  'buffers': 'lightline#bufferline#buffers',
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \ }
+
+
+let g:lightline.component_type = {
+      \  'buffers': 'tabsel',
+      \  'linter_checking': 'right',
+      \  'linter_infos': 'right',
+      \  'linter_warnings': 'right',
+      \  'linter_errors': 'error',
+      \ }
+
+let s:palette = g:lightline#colorscheme#seoul256#palette
+let s:palette.tabline.middle = [ ['#666656', '#30302c', 242, 236] ]
+let s:palette.tabline.tabsel = [ [ '#30302c', '#87afaf', 236, 109 ] ]
+unlet s:palette
 
 " comment
-if has('win32')
-    nnoremap <c-/> :Commentary<cr>
-    vnoremap <c-/> :Commentary<cr>
-elseif has("gui_running")
-    nnoremap <leader>z :Commentary<cr>
-    vnoremap <leader>z :Commentary<cr>
-else
-    nnoremap <c-_> :Commentary<cr>
-    vnoremap <c-_> :Commentary<cr>
-endif
+nnoremap <leader>z :Commentary<cr>
+vnoremap <leader>z :Commentary<cr>
+nnoremap <c-_> :Commentary<cr>
+vnoremap <c-_> :Commentary<cr>
 
 " move window
 nnoremap <c-h> <c-w><c-h>
@@ -187,12 +217,9 @@ vnoremap <silent><leader>w <esc>:<leader>w<cr>
 nnoremap <leader>q :q<cr>
 
 " Vista
-nnoremap <space>t :Vista!!<cr>
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-set statusline+=%{NearestMethodOrFunction()}
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+nnoremap <leader>t :Vista!!<cr>
+let g:vista_sidebar_width=35
+let g:vista#renderer#enable_icon = 0
 
 " vim-go
 function! s:build_go_files()
@@ -225,7 +252,6 @@ augroup go
   au!
   au FileType go noremap <buffer> <F7> :GoFmt<cr>
   au FileType go noremap gd :GoDef<cr>
-  au FileType go noremap <c-n> :GoReferrers<cr>
 
   au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
   au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
@@ -237,8 +263,8 @@ augroup go
   au FileType go nmap <Leader>db <Plug>(go-doc-browser)
 
   au FileType go nmap <leader>r  <Plug>(go-run)
-  au FileType go nmap <leader>t  <Plug>(go-test)
-  au FileType go nmap <Leader>gt <Plug>(go-coverage-toggle)
+  au FileType go nmap <leader>gt  <Plug>(go-test)
+  au FileType go nmap <Leader>gc <Plug>(go-coverage-toggle)
   au FileType go nmap <Leader>i <Plug>(go-info)
   au FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
   au FileType go nmap <C-g> :GoDecls<cr>
@@ -246,11 +272,6 @@ augroup go
   au FileType go nmap <leader>rb :<C-u>call <SID>build_go_files()<CR>
 
 augroup END
-
-" goyo
-nnoremap <leader>gy :Goyo<cr>
-let g:goyo_width=500
-let g:goyo_height=90
 
 " markdown
 let g:instant_markdown_autostart = 1
@@ -272,7 +293,30 @@ if has('gui_running')
     set guifont=Fira\ Code:h14
 endif
 
-autocmd! BufWritePost ~/.vimrc source ~/.vimrc
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+" terminal
+nnoremap <silent> <leader>4 :call TerminalToggle()<CR>
+tnoremap <silent> <leader>4 <c-w>:call TerminalToggle()<CR>
+tnoremap <Esc> <c-\><c-n>
+function! TerminalToggle()
+    let name = "terminal"
+    let bufferNum = bufnr(name)
+    if bufferNum == -1 || bufloaded(bufferNum) != 1
+        execute 'silent botright term ++close ++kill=term ++rows=20'
+        execute 'silent file '.name
+        execute 'silent set nobuflisted'
+    else
+        let bufWinNum = bufwinnr(name)
+        if bufWinNum == -1
+            execute "silent botright sbuffer ".name
+            execute "resize -10"
+        else
+            execute "silent ".bufWinNum." wincmd w"
+            hide
+        endif
+    endif
+endfunction
 
 " coc.nvim
 " ===================
@@ -386,22 +430,8 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
-" Using CocList
-" Show all diagnostics
-" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" " Manage extensions
-" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" " Show commands
-" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" " Find symbol of current document
-" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" " Search workspace symbols
-" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" " Do default action for next item.
-" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" " Do default action for previous item.
-" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" " Resume latest coc list
-" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
