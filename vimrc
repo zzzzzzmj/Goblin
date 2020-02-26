@@ -18,23 +18,25 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
 
-Plug 'scrooloose/nerdtree'
+" edit
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
+
+" programming
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'honza/vim-snippets'
-Plug 'liuchengxu/vista.vim'
-
-" programming
+Plug 'yggdroot/indentLine'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'yggdroot/indentLine'
+Plug 'janko/vim-test'
 
-" search
+" move
+Plug 'scrooloose/nerdtree'
+Plug 'liuchengxu/vista.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 " makrdown
@@ -435,3 +437,14 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 function! CocCurrentFunction()
     return get(b:, 'coc_current_function', '')
 endfunction
+
+" python
+au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
+
+let test#python#runner = 'pytest'
+let test#vim#term_position = "belowright"
+let test#strategy = "vimterminal"
+nmap <leader>tn :TestNearest<CR>
+nmap <leader>tf :TestFile<CR>
+nmap <leader>tl :TestLast<CR>
+nmap <leader>tv :TestVist<CR>
