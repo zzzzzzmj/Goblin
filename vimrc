@@ -23,6 +23,8 @@ Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
+Plug 'itchyny/vim-cursorword'
+Plug 'junegunn/vim-easy-align'
 
 " programming
 Plug 'tpope/vim-fugitive'
@@ -46,14 +48,19 @@ Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 
 call plug#end()
 filetype plugin indent on
-syntax enable
-syntax on
 
 " Leaderf
-nnoremap <c-p> :Leaderf file --popup<CR>
-nnoremap <leader>f :Leaderf line --popup<CR>
-nnoremap <leader>F :Leaderf rg --popup<CR>
-nnoremap <leader>rc :<C-U>Leaderf rg --recall<CR>
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PopupWidth = &columns * 3 / 4
+let g:Lf_PopupHeight = 0.6
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+nnoremap <leader>ff :Leaderf file<CR>
+nnoremap <leader>fl :Leaderf line --fullPath<CR>
+nnoremap <leader>fr :Leaderf rg -F<CR>
+xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
 
 colorscheme darcula
 highlight Cursor guibg=#7F70F0
@@ -61,7 +68,7 @@ set termguicolors
 set background=dark
 
 " NERDtree
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git', '.idea', '.vscode']
+let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git', '.idea', '.vscode', '\.swp']
 let NERDTreeChDirMode=3
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
@@ -81,12 +88,13 @@ autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
 autocmd FileType python noremap <buffer> <F8> :ALEToggle<cr>
 autocmd BufWritePre *.py :ALEFix
 let g:ale_fixers = {
- \    '*': ['remove_trailing_lines', 'trim_whitespace'],
- \    'python': ['isort', 'black'],
- \}
-let g:ale_linters = {
-\     'python': ['flake8'],
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['isort', 'black'],
 \}
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
+
 let g:ale_sign_error = '✗'
 let g:ale_python_black_options='--line-length=120'
 let g:ale_python_flake8_options='--max-line-length=120'
@@ -95,13 +103,14 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_fix_on_save=1
 let g:ale_linter_on_save=1
+let g:ale_lint_on_insert_leave=1
+let g:ale_lint_on_text_changed=0
 
 set autoindent
 set backspace=2
 set cursorline
 set encoding=utf-8
 set fileencoding=utf-8
-set expandtab
 set hlsearch
 set ignorecase
 set incsearch
@@ -110,13 +119,19 @@ set relativenumber
 set shell=/bin/zsh
 set shiftwidth=4
 set smartindent
+set clipboard=unnamed
 set softtabstop=4
 set tabstop=4
-set clipboard=unnamed
-
+set expandtab
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <leader>y viwy
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 
 " airline
@@ -312,7 +327,7 @@ function! TerminalToggle()
         let bufWinNum = bufwinnr(name)
         if bufWinNum == -1
             execute "silent botright sbuffer ".name
-            execute "resize -10"
+            execute "resize -5"
         else
             execute "silent ".bufWinNum." wincmd w"
             hide
@@ -438,13 +453,15 @@ function! CocCurrentFunction()
     return get(b:, 'coc_current_function', '')
 endfunction
 
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
 " python
 au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
 
 let test#python#runner = 'pytest'
 let test#vim#term_position = "belowright"
 let test#strategy = "vimterminal"
-nmap <leader>tn :TestNearest<CR>
-nmap <leader>tf :TestFile<CR>
-nmap <leader>tl :TestLast<CR>
-nmap <leader>tv :TestVist<CR>
+nnoremap <leader>utn :TestNearest<CR>
+nnoremap <leader>utf :TestFile<CR>
+nnoremap <leader>utl :TestLast<CR>
+nnoremap <leader>utv :TestVisit<CR>
