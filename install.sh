@@ -18,9 +18,8 @@ cp ideavimrc ~/.ideavimrc
 if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; then
     case "$is_install" in
         [Yy]* )
-            if [ -d ~/.vim ] && [ ! -f ~/.vim/autoload/plug.vim ]; then
-                cp vim/autoload/plug.vim ~/.vim/autoload/plug.vim
-            fi
+            mkdir -p ~/.vim/autoload
+            [ ! -f ~/.vim/autoload/plug.vim ] && cp vim/autoload/plug.vim ~/.vim/autoload/plug.vim
 
             [ -f ~/.vim/coc-settings.json ] && cp ~/.vim/coc-settings.json ~/.backup/
             cp vim/coc-settings.json ~/.vim/coc-settings.json

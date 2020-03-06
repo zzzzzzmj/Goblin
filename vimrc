@@ -10,7 +10,6 @@ set ignorecase
 set incsearch
 set number
 set relativenumber
-set shell=/bin/zsh
 set smartindent
 set clipboard=unnamed
 set shiftwidth=4
@@ -104,7 +103,7 @@ set termguicolors
 set background=dark
 
 " NERDtree
-let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git', '.idea', '.vscode', '\.swp']
+let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git$', '.idea', '.vscode', '\.swp']
 let NERDTreeChDirMode=3
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
