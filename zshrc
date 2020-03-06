@@ -15,10 +15,7 @@ ZSH_THEME='robbyrussell'
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   vi-mode
-  zsh-autosuggestions
-  zsh-syntax-highlighting
   git
-  z
 )
 
 set -o vi

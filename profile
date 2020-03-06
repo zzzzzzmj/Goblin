@@ -44,5 +44,3 @@ alias kcg='kubectl config get-contexts'
 alias kcu='kcu() { kubectl config use-context $1; };kcu'
 alias kpn='kpn() { kubectl get pod | grep $1 | head -n1 | cut -d " " -f1; };kpn'
 alias km='kustomize'
-
-alias rm='safe-rm'  # use safe-rm

@@ -1,10 +1,16 @@
 # (..•˘_˘•..)
 
-[![Build](https://travis-ci.org/zzzzzzmj/Goblin.svg?branch=master)](https://travis-ci.org/zzzzzzmj/Goblin)
+## Install
 
-### Install
+### Using Git and the  install script
+
+First, clone this repo
 ```
-git clone https://github.com/Ackerr/dotfiles.git
-cd dotfiles && chmod +x install.sh && ./install.sh
+git clone https://github.com/Ackerr/dotfiles.git && cd dotfiles
 ```
-> 原有配置会被放在~/.backup文件夹下, 记得更新`.gitconfig`中的邮箱哦
+
+then run the `install.sh`
+```
+chmod +x install.sh && ./install.sh
+```
+> 原有配置会被放在`~/.backup`文件夹下, 记得更新`.gitconfig`中的邮箱哦
