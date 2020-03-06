@@ -1,11 +1,46 @@
-map  <Down> <Nop>
-map  <Up> <Nop>
-map  <Left> <Nop>
-map  <Right> <Nop>
-inoremap jk <Esc>
-
 let mapleader = " "
 set nocompatible
+set autoindent
+set backspace=2
+set cursorline
+set encoding=utf-8
+set fileencoding=utf-8
+set hlsearch
+set ignorecase
+set incsearch
+set number
+set relativenumber
+set shell=/bin/zsh
+set smartindent
+set clipboard=unnamed
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
+
+" fold
+set foldenable
+set foldmethod=indent
+set foldlevel=99
+
+inoremap jk <Esc>
+nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv  :source $MYVIMRC<cr>
+nnoremap <leader>y viwy
+
+" VIM Buffer
+noremap <leader>dw :bp<cr>:bd #<cr>
+nnoremap H :bp<cr>
+nnoremap L :bn<cr>
+nnoremap <leader>w :w<cr>
+vnoremap <leader>w <esc>:<leader>w<cr>
+nnoremap <leader>q :q<cr>
+
+" move window
+nnoremap <c-h> <c-w><c-h>
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
 
 filetype off
 call plug#begin('~/.vim/plugged')
@@ -38,6 +73,7 @@ Plug 'janko/vim-test'
 
 " move
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'liuchengxu/vista.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
@@ -85,7 +121,7 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
-autocmd FileType python noremap <buffer> <F8> :ALEToggle<cr>
+nnoremap <buffer> <F8> :ALEToggle<cr>
 autocmd BufWritePre *.py :ALEFix
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -106,26 +142,6 @@ let g:ale_linter_on_save=1
 let g:ale_lint_on_insert_leave=1
 let g:ale_lint_on_text_changed=0
 
-set autoindent
-set backspace=2
-set cursorline
-set encoding=utf-8
-set fileencoding=utf-8
-set hlsearch
-set ignorecase
-set incsearch
-set number
-set relativenumber
-set shell=/bin/zsh
-set shiftwidth=4
-set smartindent
-set clipboard=unnamed
-set softtabstop=4
-set tabstop=4
-set expandtab
-nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv  :source $MYVIMRC<cr>
-nnoremap <leader>y viwy
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -174,9 +190,7 @@ let g:lightline#bufferline#shorten_path = 1
 set showtabline=2
 set noshowmode
 set laststatus=2
-if !has('gui_running')
-  set t_Co=256
-endif
+set t_Co=256
 
 let g:lightline.component_expand = {
       \  'buffers': 'lightline#bufferline#buffers',
@@ -200,38 +214,10 @@ let s:palette.tabline.middle = [ ['#666656', '#30302c', 242, 236] ]
 let s:palette.tabline.tabsel = [ [ '#30302c', '#87afaf', 236, 109 ] ]
 unlet s:palette
 
-" comment
-nnoremap <leader>z :Commentary<cr>
-vnoremap <leader>z :Commentary<cr>
-nnoremap <c-_> :Commentary<cr>
-vnoremap <c-_> :Commentary<cr>
+" Comment
+nnoremap <leader>c :Commentary<cr>
+vnoremap <leader>c :Commentary<cr>
 
-" move window
-nnoremap <c-h> <c-w><c-h>
-nnoremap <c-j> <c-w><c-j>
-nnoremap <c-k> <c-w><c-k>
-nnoremap <c-l> <c-w><c-l>
-
-" VIM flod
-set foldmethod=indent
-set foldlevel=5
-
-" VIM Buffer
-set wildmenu wildmode=full
-set wildchar=<Tab>
-set wildcharm=<c-z>
-noremap <leader>dw :bp<cr>:bd #<cr>
-nnoremap H :bp<cr>
-nnoremap L :bn<cr>
-
-" VIM Tab
-noremap gt :tabn<cr>
-noremap gT :tabp<cr>
-
-vnoremap <leader>c "+yy
-nnoremap <silent><leader>w :w<cr>
-vnoremap <silent><leader>w <esc>:<leader>w<cr>
-nnoremap <leader>q :q<cr>
 
 " Vista
 nnoremap <leader>t :Vista!!<cr>
@@ -309,8 +295,6 @@ if has('gui_running')
     set macligatures
     set guifont=Fira\ Code:h14
 endif
-
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " terminal
 nnoremap <silent> <leader>4 :call TerminalToggle()<CR>
@@ -458,6 +442,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " python
 au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
 
+" vim-test
 let test#python#runner = 'pytest'
 let test#vim#term_position = "belowright"
 let test#strategy = "vimterminal"
@@ -465,3 +450,5 @@ nnoremap <leader>utn :TestNearest<CR>
 nnoremap <leader>utf :TestFile<CR>
 nnoremap <leader>utl :TestLast<CR>
 nnoremap <leader>utv :TestVisit<CR>
+
+let g:netrw_browsex_viewer="open"

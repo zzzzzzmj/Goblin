@@ -1,5 +1,4 @@
 let mapleader = ","
-
 set number
 set relativenumber
 set hlsearch
@@ -10,7 +9,6 @@ set clipboard=unnamed
 
 set surround
 set commentary
-
 nnoremap <c-y> viwy
 
 nmap go :action MoveEditorToOppositeTabGroup<CR>
