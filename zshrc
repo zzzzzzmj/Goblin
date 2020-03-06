@@ -44,7 +44,7 @@ export GO111MODULE=on
 export GOPROXY='https://goproxy.cn'
 
 # fzf
-[-f ~/.fzf/shell/key-bindings.zsh] && source ~/.fzf/shell/key-bindings.zsh
+[ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 bindkey '^T' fzf-file-widget
 export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles'} --type f --hidden --follow"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
