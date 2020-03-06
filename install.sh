@@ -2,11 +2,7 @@
 
 set -e
 
-read -t 3 -p "Install vim [Y/N]?" is_install
-
-echo "$is_install"
-
-echo 'Backup local config file > ~/.backup'
+echo 'Backup config file > ~/.backup'
 mkdir -p ~/.backup
 [ -f ~/.zshrc ] && cp ~/.zshrc ~/.backup/
 [ -f ~/.tmux.conf ] && cp ~/.tmux.conf ~/.backup/
@@ -15,20 +11,27 @@ mkdir -p ~/.backup
 [ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/.backup/
 
 echo 'Installing'
-[ -f ~/.zshrc ] && curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/zshrc > ~/.zshrc
-[ -f ~/.tmux.conf ] && curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/tmux.conf > ~/.tmux.conf
-curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/profile > ~/.profile
-curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/gitconfig > ~/.gitconfig
-curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/ideavimrc > ~/.ideavimrc
+[ -f ~/.zshrc ] && cp zshrc > ~/.zshrc
+[ -f ~/.tmux.conf ] && cp tmux.conf > ~/.tmux.conf
+cp profile ~/.profile
+cp gitconfig ~/.gitconfig
+cp ideavimrc ~/.ideavimrc
 
-if [ "$is_install" in ["Y", "y"] ]; then
-    [ -f ~/.vimrc ] && cp ~/.vimrc ~/.backup
-    [ -f ~/.vim ] && cp -r ~/.vim ~/.backup
-    curl -fsSL https://raw.githubusercontent.com/Ackerr/dotfiles/master/vim > ~/.vim
-    cp ~/.vim/vimrc ~/.vimrc
-    echo 'Vim plugin installing...'
-    vim +PlugInstall +qall
-    echo 'Vim plugin install Done!'
+if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; then
+    case "$is_install" in
+        [Yy]* )
+            [ -f ~/.vimrc ] && cp ~/.vimrc ~/.backup/
+            if [ -d ~/.vim ] && [! -f ~/.vim/autoload/plug.vim ]; then
+                cp vim/autoload/plug.vim ~/.vim/autoload/plug.vim
+                cp vim/coc-settings.json ~/.vim/coc-settings.json
+            fi
+            cp vimrc ~/.vimrc
+            echo 'Vim plugin installing...'
+            vim +PlugInstall +qall
+            echo 'Vim plugin install Done!';;
+    esac
+else
+    echo ""
 fi
 
 echo 'Install Done!'
