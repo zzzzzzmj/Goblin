@@ -13,6 +13,6 @@ git clone https://github.com/Ackerr/dotfiles.git && cd dotfiles
 Then, run the shell script
 
 ```
-sh ./install.sh
+bash ./install.sh
 ```
 > 原有配置会被放在`~/.backup`文件夹下, 记得更新`.gitconfig`中的邮箱哦
