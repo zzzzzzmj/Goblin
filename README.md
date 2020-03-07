@@ -1,4 +1,5 @@
 # (..•˘_˘•..)
+![](https://github.com/Ackerr/dotfiles/workflows/CI/badge.svg)
 
 ## Install
 
@@ -9,8 +10,9 @@ First, clone this repo
 git clone https://github.com/Ackerr/dotfiles.git && cd dotfiles
 ```
 
-then run the `install.sh`
+Then, run the shell script
+
 ```
-chmod +x install.sh && ./install.sh
+sh ./install.sh
 ```
 > 原有配置会被放在`~/.backup`文件夹下, 记得更新`.gitconfig`中的邮箱哦

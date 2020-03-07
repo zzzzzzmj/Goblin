@@ -1,4 +1,5 @@
 let mapleader = " "
+
 set nocompatible
 set autoindent
 set backspace=2
@@ -21,6 +22,9 @@ set expandtab
 set foldenable
 set foldmethod=indent
 set foldlevel=99
+
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 inoremap jk <Esc>
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
@@ -59,6 +63,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/vim-cursorword'
 Plug 'junegunn/vim-easy-align'
+Plug 'stephpy/vim-yaml'
 
 " programming
 Plug 'tpope/vim-fugitive'
@@ -208,6 +213,7 @@ let g:lightline.component_type = {
       \  'linter_errors': 'error',
       \ }
 
+" 加载lightline 再配置
 let s:palette = g:lightline#colorscheme#seoul256#palette
 let s:palette.tabline.middle = [ ['#666656', '#30302c', 242, 236] ]
 let s:palette.tabline.tabsel = [ [ '#30302c', '#87afaf', 236, 109 ] ]
