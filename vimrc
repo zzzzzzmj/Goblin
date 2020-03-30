@@ -12,19 +12,22 @@ set incsearch
 set number
 set relativenumber
 set smartindent
-set clipboard=unnamed
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set expandtab
+set clipboard=unnamed
 
 " fold
 set foldenable
 set foldmethod=indent
 set foldlevel=99
 
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+" filetype
+autocmd! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 inoremap jk <Esc>
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
@@ -36,7 +39,7 @@ noremap <leader>dw :bp<cr>:bd #<cr>
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
 nnoremap <leader>w :w<cr>
-vnoremap <leader>w <esc>:<leader>w<cr>
+vnoremap <leader>w <esc>:w<cr>
 nnoremap <leader>q :q<cr>
 
 " move window
@@ -45,13 +48,13 @@ nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 
+
 filetype off
 call plug#begin('~/.vim/plugged')
 
-Plug 'doums/darcula'
+" Plug 'doums/darcula'
+Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
@@ -64,27 +67,34 @@ Plug 'tpope/vim-commentary'
 Plug 'itchyny/vim-cursorword'
 Plug 'junegunn/vim-easy-align'
 Plug 'stephpy/vim-yaml'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'mattn/vim-gist', { 'on': 'Gist' }
+Plug 'mattn/webapi-vim'
 
 " programming
-Plug 'tpope/vim-fugitive'
+Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 Plug 'honza/vim-snippets'
 Plug 'yggdroot/indentLine'
-Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'janko/vim-test'
 
-" move
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" " move
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'liuchengxu/vista.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
 " makrdown
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'godlygeek/tabular', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
+
+" startuptime
+" Plug 'tweekmonster/startuptime.vim'
+" Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 filetype plugin indent on
@@ -102,7 +112,9 @@ nnoremap <leader>fr :Leaderf rg -F<CR>
 xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
 nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
 
-colorscheme darcula
+" color
+colorscheme hybrid
+" fix darcula gui cursor
 highlight Cursor guibg=#7F70F0
 set termguicolors
 set background=dark
@@ -125,14 +137,15 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
-nnoremap <buffer> <F8> :ALEToggle<cr>
 autocmd BufWritePre *.py :ALEFix
-let g:ale_fixers = {
+let b:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['isort', 'black'],
+\   'go': ['gofmt'],
 \}
-let g:ale_linters = {
+let b:ale_linters = {
 \   'python': ['flake8'],
+\   'go': ['golint'],
 \}
 
 let g:ale_sign_error = '✗'
@@ -144,31 +157,20 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_fix_on_save=1
 let g:ale_linter_on_save=1
 let g:ale_lint_on_insert_leave=1
-let g:ale_lint_on_text_changed=0
+let g:ale_lint_on_text_changed='never'
 
-
+" EasyAlign
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
 
-" airline
-" let g:airline_theme='violet'
-" let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#left_sep = ''
-" let g:airline#extensions#tabline#left_alt_sep = ''
-" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-" let g:airline#extensions#ale#enabled = 1
-" let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
-
 " lightline
+set showtabline=2
+set noshowmode
+set laststatus=2
+set t_Co=256
 let g:lightline = {
       \ 'colorscheme': 'seoul256',
       \ 'active': {
@@ -191,10 +193,6 @@ let g:lightline.separator = {'left': '', 'right': ''}
 let g:lightline.subseparator = { 'left': '', 'right': '' }
 let g:lightline.tabline = {'left': [['buffers']], 'right': [['tabs']]}
 let g:lightline#bufferline#shorten_path = 1
-set showtabline=2
-set noshowmode
-set laststatus=2
-set t_Co=256
 
 let g:lightline.component_expand = {
       \  'buffers': 'lightline#bufferline#buffers',
@@ -204,8 +202,7 @@ let g:lightline.component_expand = {
       \  'linter_errors': 'lightline#ale#errors',
       \ }
 
-
-let g:lightline.component_type = {
+let g:lightline.component_type   = {
       \  'buffers': 'tabsel',
       \  'linter_checking': 'right',
       \  'linter_infos': 'right',
@@ -242,10 +239,8 @@ endfunction
 let g:go_list_type = "quickfix"
 let g:go_def_mode = 'gopls'
 let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 1
+let g:go_fmt_fail_silently = 0
 let g:go_fmt_autosave = 1
-
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 augroup completion_preview_close
   autocmd!
@@ -284,24 +279,29 @@ augroup END
 " markdown
 let g:instant_markdown_autostart = 1
 let g:instant_markdown_slow = 1
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 " GUI config
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-set guioptions-=m
-set guioptions-=T
-set guioptions-=e
 if has('gui_running')
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+
+    set guioptions-=l
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=R
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=e
+    set guifont=Fira\ Code:h14
     set macligatures
     set guifont=Fira\ Code:h14
 endif
 
 " terminal
+nnoremap <silent> <leader>5 :botright term ++kill=term ++rows=20<cr>
 nnoremap <silent> <leader>4 :call TerminalToggle()<CR>
 tnoremap <silent> <leader>4 <c-w>:call TerminalToggle()<CR>
 tnoremap <Esc> <c-\><c-n>
@@ -365,9 +365,12 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+if has('patch8.1.1068')
+  " Use `complete_info` if your (Neo)Vim version supports it.
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -397,7 +400,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-nmap <leader>p  <Plug>(coc-format-selected)
+xmap <F9>  <Plug>(coc-format-selected)
+nmap <F9>  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -408,11 +412,11 @@ augroup mygroup
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-" xmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-" nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 " nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -427,22 +431,22 @@ nmap <silent> <TAB> <Plug>(coc-range-select)
 xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+" command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
-function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
-endfunction
+" function! CocCurrentFunction()
+"     return get(b:, 'coc_current_function', '')
+" endfunction
 
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " python
 au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
