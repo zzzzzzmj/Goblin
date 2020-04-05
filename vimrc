@@ -70,6 +70,7 @@ Plug 'stephpy/vim-yaml'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'mattn/vim-gist', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
+Plug 'AndrewRadev/splitjoin.vim'
 
 " programming
 Plug 'dense-analysis/ale'
