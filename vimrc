@@ -52,8 +52,8 @@ nnoremap <c-l> <c-w><c-l>
 filetype off
 call plug#begin('~/.vim/plugged')
 
-" Plug 'doums/darcula'
-Plug 'w0ng/vim-hybrid'
+Plug 'doums/darcula'
+" Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
@@ -84,6 +84,7 @@ Plug 'janko/vim-test'
 
 " " move
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'liuchengxu/vista.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -92,6 +93,8 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'godlygeek/tabular', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
+
+Plug 'vim/killersheep'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
@@ -114,7 +117,8 @@ xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visua
 nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
 
 " color
-colorscheme hybrid
+colorscheme darcula
+
 " fix darcula gui cursor
 highlight Cursor guibg=#7F70F0
 set termguicolors
@@ -139,12 +143,13 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
 autocmd BufWritePre *.py :ALEFix
-let b:ale_fixers = {
+let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['isort', 'black'],
+\   'py': ['isort', 'black'],
 \   'go': ['gofmt'],
 \}
-let b:ale_linters = {
+let g:ale_linters = {
 \   'python': ['flake8'],
 \   'go': ['golint'],
 \}
@@ -225,7 +230,7 @@ vnoremap <leader>c :Commentary<cr>
 " Vista
 nnoremap <leader>t :Vista!!<cr>
 let g:vista_sidebar_width=35
-let g:vista#renderer#enable_icon = 0
+let g:vista#renderer#enable_icon = 1
 
 " vim-go
 function! s:build_go_files()
@@ -296,9 +301,10 @@ if has('gui_running')
     set guioptions-=m
     set guioptions-=T
     set guioptions-=e
-    set guifont=Fira\ Code:h14
+    set guifont=Hack\ Nerd\ Font:h14
     set macligatures
-    set guifont=Fira\ Code:h14
+    set lines=75
+    set columns=250
 endif
 
 " terminal
@@ -428,8 +434,10 @@ omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
 " Use `:Format` to format current buffer
 " command! -nargs=0 Format :call CocAction('format')
@@ -453,7 +461,7 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
 
 " vim-test
-let test#python#runner = 'pytest'
+let test#python#runner = 'djangotest'
 let test#vim#term_position = "belowright"
 let test#strategy = "vimterminal"
 nnoremap <leader>utn :TestNearest<CR>

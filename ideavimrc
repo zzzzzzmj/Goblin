@@ -3,6 +3,7 @@ set relativenumber
 set hlsearch
 set incsearch
 set smartindent
+set ignorecase
 set clipboard+=unnamed
 
 set surround
@@ -12,3 +13,4 @@ nnoremap <c-y> viwy
 nmap go :action MoveEditorToOppositeTabGroup<CR>
 
 inoremap jk <Esc>
+

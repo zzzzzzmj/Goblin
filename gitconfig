@@ -1,41 +1,54 @@
 [alias]
+    d = diff
+    co = checkout
     br = branch
     brd = branch -D
-    co = checkout
+    pod = push o --delete
+    st = status
     ci = commit
     cia = commit --all
     cim = commit --amend
     cima = commit --amend --all
-    d = diff
+    crp = cherry-pick
+    dfl = diff --name-status
     dfs = diff --staged
     dl = diff HEAD^
     f = fetch --tags
     g = grep -in
+    last = log -1 HEAD
     logg = log --graph --decorate --oneline --abbrev-commit --all
+    logo = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     logs = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    mgf = merge --ff-only
     p = push
     pf = push -f
     puo = push -u o
-    pod = push origin --delete
     puz = push -u z
+    plbr = pull --prune
     rb = rebase
     rbc = rebase --continue
     rbi = rebase -i
-    rbz = rebase z/dev
+    rbd = rebase z/dev
     rs = reset HEAD^
+    back = reset --soft HEAD^
     rh = reset --hard
     rhd = reset --hard z/dev
     rroo = remote rename origin o
-    st = status
+    slog = log --graph --decorate --oneline --all --simplify-by-decoration
     squash = rebase HEAD~2 -i
+    changed = update-index --no-assume-unchanged
+    unchanged = update-index --assume-unchanged
+    save = stash
     slist = stash list
     spop = stash pop
-    sshow = stash show -p stash@{0}
     sdrop = stash drop
+    sshow = stash show -p stash@{0}
+    select = stash -p
 [core]
     editor = vim
     autocrlf = false
     ignorecase = false
+	quotepath = false
 [color]
     ui = true
 [merge]
@@ -43,5 +56,7 @@
 [push]
     mail = wzmmmmj@gmail.com
 [user]
-    name = wzmmmmj
-    email = wzmmmmj@gmail.com
+	name = Ackerr
+	email = wzmmmmj@gmail.com
+[github]
+    user = Ackerr
