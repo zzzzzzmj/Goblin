@@ -94,7 +94,7 @@ Plug 'godlygeek/tabular', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
 
-Plug 'vim/killersheep'
+Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
