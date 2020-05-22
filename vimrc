@@ -34,6 +34,9 @@ nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <leader>y viwy
 
+" register
+vnoremap p "_dP
+
 " VIM Buffer
 noremap <leader>dw :bp<cr>:bd #<cr>
 nnoremap H :bp<cr>
@@ -87,7 +90,9 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'liuchengxu/vista.vim'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'junegunn/fzf', { 'do': './install --all'  }
+Plug 'junegunn/fzf.vim'
 
 " makrdown
 Plug 'godlygeek/tabular', { 'for': 'markdown' }
@@ -104,17 +109,27 @@ call plug#end()
 filetype plugin indent on
 
 " Leaderf
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
-let g:Lf_PopupWidth = &columns * 3 / 4
-let g:Lf_PopupHeight = 0.6
-noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-nnoremap <leader>ff :Leaderf file<CR>
-nnoremap <leader>fl :Leaderf line --fullPath<CR>
-nnoremap <leader>fr :Leaderf rg -F<CR>
-xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
+" let g:Lf_WindowPosition = 'popup'
+" let g:Lf_PreviewInPopup = 1
+" let g:Lf_PopupWidth = &columns * 3 / 4
+" let g:Lf_PopupHeight = 0.6
+" noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+" noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+" nnoremap <leader>ff :Leaderf file<CR>
+" nnoremap <leader>fl :Leaderf line --fullPath<CR>
+" nnoremap <leader>fr :Leaderf rg -F<CR>
+" xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+" nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
+
+
+" fzf
+let g:fzf_preview_window = ''
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+
+nnoremap <silent> <leader>fr :Rg<cr>
+nnoremap <silent> <leader>ff :Files<cr>
+nnoremap <silent> <leader>fb :Gblame --date=short<cr>
+
 
 " color
 colorscheme darcula
@@ -302,6 +317,7 @@ if has('gui_running')
     set guioptions-=T
     set guioptions-=e
     set guifont=Hack\ Nerd\ Font:h14
+    set linespace=4
     set macligatures
     set lines=75
     set columns=250

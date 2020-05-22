@@ -9,11 +9,13 @@ mkdir -p ~/.backup
 [ -f ~/.profile ] && cp ~/.profile ~/.backup/
 [ -f ~/.gitconfig ] && cp ~/.gitconfig ~/.backup/
 [ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/.backup/
+[ -f ~/.p10k.zsh ] && cp ~/.p10k.zsh ~/.backup/
 
 echo 'Installing'
 cp profile ~/.profile
 cp gitconfig ~/.gitconfig
 cp ideavimrc ~/.ideavimrc
+cp p10k.zsh ~/.p10k.zsh
 
 if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; then
     case "$is_install" in

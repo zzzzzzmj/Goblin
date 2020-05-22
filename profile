@@ -37,6 +37,7 @@ alias drmi='rmi(){ docker rmi $(docker images | grep $1 | awk "{print $3}");};rm
 
 # k8s
 alias k='kubectl'
+alias km='kustomize'
 alias kg='kubectl get'
 alias kc='kubectl config'
 alias kf='kubectl apply -f'
@@ -46,10 +47,11 @@ alias kgp='kubectl get pod'
 alias kex='kubectl exec -it'
 alias kcg='kubectl config get-contexts'
 alias kcu='kcu() { kubectl config use-context $1; };kcu'
-alias kpn='kpn() { kubectl get pod | grep $1 | head -n1 | cut -d " " -f1; };kpn'
-alias km='kustomize'
+kcl() { if [[ -z "$1" ]]; then kubectl config get-contexts; else kubectl config use-context $1; fi; }
+kns() { if [[ -z "$1" ]]; then kubectl get ns; else kubectl config set-context --current --namespace $1; fi; }
+kpm() { kex `kpo $1` pipenv run python manage.py shell; }
+kpo() { kg po | grep $1 | head -n1 | cut -d" " -f1; }
+ksh() { kex `kpo $1` -- bash; }
 
 alias rm='safe-rm'
 alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
-
-alias color='color() { for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done; };color'
