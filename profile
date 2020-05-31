@@ -1,5 +1,5 @@
 alias ..='cd ..'
-alias ...='cd ...'
+alias ...='cd ../..'
 alias ipy='ipython'
 alias sb='source env/bin/activate'
 alias de='deactivate'
@@ -46,7 +46,7 @@ alias kd='kubectl delete'
 alias kgp='kubectl get pod'
 alias kex='kubectl exec -it'
 alias kcg='kubectl config get-contexts'
-alias kcu='kcu() { kubectl config use-context $1; };kcu'
+alias kcu='kubectl config use `kubectl config get-contexts -o name| fzf`'
 kcl() { if [[ -z "$1" ]]; then kubectl config get-contexts; else kubectl config use-context $1; fi; }
 kns() { if [[ -z "$1" ]]; then kubectl get ns; else kubectl config set-context --current --namespace $1; fi; }
 kpm() { kex `kpo $1` pipenv run python manage.py shell; }
@@ -55,3 +55,7 @@ ksh() { kex `kpo $1` -- bash; }
 
 alias rm='safe-rm'
 alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
+
+
+# fzf
+alias gbr='git co `git br | fzf`'

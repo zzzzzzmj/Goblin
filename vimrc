@@ -154,6 +154,7 @@ nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <leader>m :NERDTreeCWD<cr>
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " autocmd BufEnter * silent! :lcd%:p:h
+autocmd CursorHold,CursorHoldI * update
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
