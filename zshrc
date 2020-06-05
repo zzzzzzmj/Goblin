@@ -20,14 +20,34 @@ ZSH_THEME='powerlevel10k/powerlevel10k'
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  vi-mode
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  z
-)
 
-set -o vi
+# use zplug
+# plugins=(
+#   vi-mode
+#   zsh-autosuggestions
+#   zsh-syntax-highlighting
+#   z
+# )
+
+
+# zplug
+export ZPLUG_HOME="/usr/local/opt/zplug"
+source $ZPLUG_HOME/init.zsh
+
+# zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+# zplug 'romkatv/powerlevel10k', use:powerlevel10k.zsh-theme
+zplug "plugins/vi-mode", from:oh-my-zsh
+zplug "plugins/z", from:oh-my-zsh
+zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zplug 'wfxr/forgit', lazy:true
+
+if ! zplug check; then
+  zplug install
+fi
+
+zplug load
+
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -55,7 +75,7 @@ export PIPENV_VERBOSITY=-1
 # fzf
 [ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 bindkey '^T' fzf-file-widget
-export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles'} --type f --hidden --follow"
+export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles,__pycache__'} --type f --hidden --follow"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
