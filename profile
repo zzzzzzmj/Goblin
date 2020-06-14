@@ -53,9 +53,5 @@ kpm() { kex `kpo $1` pipenv run python manage.py shell; }
 kpo() { kg po | grep $1 | head -n1 | cut -d" " -f1; }
 ksh() { kex `kpo $1` -- bash; }
 
-alias rm='safe-rm'
-alias mvim='/Applications/MacVim.app/Contents/MacOS/Vim -g'
-
-
 # fzf
 alias gbr='git co `git br | fzf`'
