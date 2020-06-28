@@ -32,9 +32,28 @@ if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; th
             echo 'Vim plugin installing...'
             vim +PlugInstall +qall
             echo 'Vim plugin install Done!';;
+        [Nn]* )
+            echo "Skip install vim plugins"
     esac
 else
-    echo ""
+    echo "\nSkip install vim plugins"
 fi
+
+# use brew bundle manager homebrew packages
+which brew >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    if read -t 5 -p "(*^▽^*) Would you want to install Homebrew packages [Y/N]?" is_install; then
+        case "$is_install" in
+            [Yy]* )
+                echo 'Homebrew packages installing'
+                brew bundle install --no-upgrade --no-lock;;
+            [Nn]* )
+                echo "Skip install Homebrew packages"
+        esac
+    else
+        echo "\nSkip install homebrew packages"
+    fi
+fi
+
 
 echo 'Install Done!'
