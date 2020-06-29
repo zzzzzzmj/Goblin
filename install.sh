@@ -16,6 +16,7 @@ cp profile ~/.profile
 cp gitconfig ~/.gitconfig
 cp ideavimrc ~/.ideavimrc
 cp p10k.zsh ~/.p10k.zsh
+cat ssh/config >> ~/.ssh/config
 
 if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; then
     case "$is_install" in
