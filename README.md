@@ -14,3 +14,8 @@ Then, run the shell script
 bash ./install.sh
 ```
 > You can find original configuration in `~/.backup`, and remember replace `.gitconfig` email to yours
+
+
+## TODO
+
+- [  ] Adjust `install.sh`
