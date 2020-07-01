@@ -18,4 +18,5 @@ bash ./install.sh
 
 ## TODO
 
-- [  ] Adjust `install.sh`
+- [ ] Adjust `install.sh`
+- [ ] Separate MacOS/Linux
