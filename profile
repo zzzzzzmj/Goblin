@@ -16,13 +16,17 @@ alias sssh='ssh -t agate ssh -t'
 alias vim-install='vim +PlugInstall +qall'
 alias cgd='hexo clean && hexo g && hexo d'
 
-# func
+# other
+alias leet='leet(){ mkdir -p $1 && cd $1 && touch solution.py solution.go solution_test.go README.md;};leet'
+
+# git
 alias dbr='del(){ git br | grep $1 | xargs git br -D;};del'
 alias rb-dev='rb-dev(){ git f z && git rebase z/dev;};rb-dev'
 alias rb='rb(){ git f $1 && git rebase $1/$2;};rb'
 alias show='show(){ git stash show -p stash@{$1};};show'
 alias wip='wip(){ git add . && git ci -n -m "wip";};wip'
-alias leet='leet(){ mkdir -p $1 && cd $1 && touch solution.py solution.go solution_test.go README.md;};leet'
+br() { git checkout -b $1 z/dev; }
+
 
 # docker
 alias d='docker'
@@ -55,3 +59,9 @@ ksh() { kex `kpo $1` -- bash; }
 
 # fzf
 alias gbr='git co `git br | fzf`'
+
+unalias z 2> /dev/null
+z() {
+    [ $# -gt 0 ] && _z "$*" && return
+    cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}

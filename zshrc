@@ -34,7 +34,7 @@ export ZSH="${HOME}/.oh-my-zsh"
 export ZPLUG_HOME="/usr/local/opt/zplug"
 source $ZPLUG_HOME/init.zsh
 
-# zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug 'romkatv/powerlevel10k', as:theme, depth:1
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
@@ -84,8 +84,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
-
-export PATH="$HOME/.poetry/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
