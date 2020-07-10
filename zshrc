@@ -10,6 +10,7 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -21,14 +22,6 @@ export ZSH="${HOME}/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-# use zplug
-# plugins=(
-#   vi-mode
-#   zsh-autosuggestions
-#   zsh-syntax-highlighting
-#   z
-# )
-
 
 # zplug
 export ZPLUG_HOME="/usr/local/opt/zplug"
@@ -36,11 +29,13 @@ source $ZPLUG_HOME/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug 'romkatv/powerlevel10k', as:theme, depth:1
+
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
+
 zplug 'zsh-users/zsh-autosuggestions'
-zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-zplug 'wfxr/forgit'
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "b4b4r07/zsh-vimode-visual", defer:3
 
 if ! zplug check; then
   zplug install
@@ -48,7 +43,8 @@ fi
 
 zplug load
 
-source $ZSH/oh-my-zsh.sh
+set -o vi
+zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected text
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
