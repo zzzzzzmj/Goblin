@@ -112,12 +112,13 @@ call plug#end()
 filetype plugin indent on
 
 " fzf
-let g:fzf_preview_window = ''
+let g:fzf_preview_window = 'right:70%'
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6} }
 
 nnoremap <silent> <leader>fr :Rg<cr>
 nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
+nnoremap <silent> <leader>fgf :GFiles?<cr>
 nnoremap <silent> <leader>fgb :Gblame --date=short<cr>
 
 

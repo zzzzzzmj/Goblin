@@ -50,9 +50,8 @@ alias kd='kubectl delete'
 alias kgp='kubectl get pod'
 alias kex='kubectl exec -it'
 alias kcg='kubectl config get-contexts'
-alias kcu='kubectl config get-contexts -o name| fzf --preview "kubectl config use {} | kubectl get ns"'
-kcl() { if [[ -z "$1" ]]; then kubectl config get-contexts; else kubectl config use-context $1; fi; }
-kns() { if [[ -z "$1" ]]; then kubectl get ns; else kubectl config set-context --current --namespace $1; fi; }
+alias kcu='kubectl config get-contexts -o name| fzf --preview "kubectl config use-context {} && kubectl get ns"'
+alias kns='kubectl get ns -o name | sed "s/namespace\///" | fzf --preview "kubectl get all -n {}"'
 kpm() { kex `kpo $1` pipenv run python manage.py shell; }
 kpo() { kg po | grep $1 | head -n1 | cut -d" " -f1; }
 ksh() { kex `kpo $1` -- bash; }
