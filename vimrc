@@ -38,7 +38,8 @@ nnoremap <leader>y viwy
 vnoremap p "_dP
 
 " VIM Buffer
-noremap <leader>dw :bp<cr>:bd #<cr>
+noremap <leader>dw :bp\|bd #<cr>      " close current buffer
+noremap <leader>bo :%bd\|e#\|bd#<cr>  " close other buffers, except current
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
 nnoremap <leader>w :w<cr>
@@ -61,6 +62,8 @@ Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'maximbaz/lightline-ale'
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 
 " edit
 Plug 'tpope/vim-surround'
@@ -74,6 +77,7 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'mattn/vim-gist', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 " programming
 Plug 'dense-analysis/ale'
@@ -85,14 +89,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'janko/vim-test'
 
-" " move
+" move
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'ryanoasis/vim-devicons', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'liuchengxu/vista.vim'
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/vim-slash'
 
 " makrdown
 Plug 'godlygeek/tabular', { 'for': 'markdown' }
@@ -108,27 +111,14 @@ Plug 'wakatime/vim-wakatime'
 call plug#end()
 filetype plugin indent on
 
-" Leaderf
-" let g:Lf_WindowPosition = 'popup'
-" let g:Lf_PreviewInPopup = 1
-" let g:Lf_PopupWidth = &columns * 3 / 4
-" let g:Lf_PopupHeight = 0.6
-" noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-" noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-" nnoremap <leader>ff :Leaderf file<CR>
-" nnoremap <leader>fl :Leaderf line --fullPath<CR>
-" nnoremap <leader>fr :Leaderf rg -F<CR>
-" xnoremap <leader>fr :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
-" nnoremap <leader>rc :<C-U>Leaderf! rg --recall<CR>
-
-
 " fzf
 let g:fzf_preview_window = ''
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'sharp' } }
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6} }
 
 nnoremap <silent> <leader>fr :Rg<cr>
 nnoremap <silent> <leader>ff :Files<cr>
-nnoremap <silent> <leader>fb :Gblame --date=short<cr>
+nnoremap <silent> <leader>fb :Buffers<cr>
+nnoremap <silent> <leader>fgb :Gblame --date=short<cr>
 
 
 " color
@@ -154,7 +144,6 @@ nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <leader>m :NERDTreeCWD<cr>
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " autocmd BufEnter * silent! :lcd%:p:h
-autocmd CursorHold,CursorHoldI * update
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
@@ -318,7 +307,7 @@ if has('gui_running')
     set guioptions-=T
     set guioptions-=e
     set guifont=Hack\ Nerd\ Font:h14
-    set linespace=4
+    set linespace=3
     set macligatures
     set lines=75
     set columns=250
@@ -326,8 +315,8 @@ endif
 
 " terminal
 nnoremap <silent> <leader>5 :botright term ++kill=term ++rows=20<cr>
-nnoremap <silent> <leader>4 :call TerminalToggle()<CR>
-tnoremap <silent> <leader>4 <c-w>:call TerminalToggle()<CR>
+nnoremap <silent> 44 :call TerminalToggle()<CR>
+tnoremap <silent> 44 <c-w>:call TerminalToggle()<CR>
 tnoremap <Esc> <c-\><c-n>
 function! TerminalToggle()
     let name = "terminal"
