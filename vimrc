@@ -59,9 +59,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'doums/darcula'
 " Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'maximbaz/lightline-ale'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 
@@ -95,7 +94,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'liuchengxu/vista.vim'
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/vim-slash'
 
 " makrdown
 Plug 'godlygeek/tabular', { 'for': 'markdown' }
@@ -105,7 +103,7 @@ Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
 Plug 'wakatime/vim-wakatime'
 
 " startuptime
-" Plug 'tweekmonster/startuptime.vim'
+Plug 'tweekmonster/startuptime.vim'
 " Plug 'dstein64/vim-startuptime'
 
 call plug#end()
@@ -177,56 +175,21 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-
-" lightline
-set showtabline=2
-set noshowmode
-set laststatus=2
-set t_Co=256
-let g:lightline = {
-      \ 'colorscheme': 'seoul256',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'cocstatus', 'currentfunction', 'filename', 'readonly', 'modified' ] ],
-      \   'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos'],
-      \             [ 'lineinfo' ],
-      \             [ 'fileformat', 'fileencoding', 'filetype' ] ],
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'cocstatus': 'coc#status',
-      \   'currentfunction': 'CocCurrentFunction'
-      \ },
-      \ 'component': {'lineinfo': ' %3l:%-2v'}
-      \ }
-
-
-let g:lightline.separator = {'left': '', 'right': ''}
-let g:lightline.subseparator = { 'left': '', 'right': '' }
-let g:lightline.tabline = {'left': [['buffers']], 'right': [['tabs']]}
-let g:lightline#bufferline#shorten_path = 1
-
-let g:lightline.component_expand = {
-      \  'buffers': 'lightline#bufferline#buffers',
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_infos': 'lightline#ale#infos',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \ }
-
-let g:lightline.component_type   = {
-      \  'buffers': 'tabsel',
-      \  'linter_checking': 'right',
-      \  'linter_infos': 'right',
-      \  'linter_warnings': 'right',
-      \  'linter_errors': 'error',
-      \ }
-
-" 加载lightline 再配置
-let s:palette = g:lightline#colorscheme#seoul256#palette
-let s:palette.tabline.middle = [ ['#666656', '#30302c', 242, 236] ]
-let s:palette.tabline.tabsel = [ [ '#30302c', '#87afaf', 236, 109 ] ]
-unlet s:palette
+" Airline
+let g:airline_theme='violet'
+let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline_highlighting_cache=1
+let g:airline_extensions=["tabline", "ale", "coc", "branch"]
 
 " Comment
 nnoremap <leader>c :Commentary<cr>
@@ -457,12 +420,6 @@ omap af <Plug>(coc-funcobj-a)
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-
-" function! CocCurrentFunction()
-"     return get(b:, 'coc_current_function', '')
-" endfunction
-
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " python
 au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
