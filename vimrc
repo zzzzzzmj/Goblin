@@ -61,8 +61,6 @@ Plug 'doums/darcula'
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'ryanoasis/vim-devicons'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' }
 
 " edit
 Plug 'tpope/vim-surround'
@@ -91,7 +89,6 @@ Plug 'janko/vim-test'
 " move
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-Plug 'liuchengxu/vista.vim'
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 
@@ -103,7 +100,7 @@ Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
 Plug 'wakatime/vim-wakatime'
 
 " startuptime
-Plug 'tweekmonster/startuptime.vim'
+" Plug 'tweekmonster/startuptime.vim'
 " Plug 'dstein64/vim-startuptime'
 
 call plug#end()
@@ -195,12 +192,6 @@ let g:airline_extensions=["tabline", "ale", "coc", "branch"]
 nnoremap <leader>c :Commentary<cr>
 vnoremap <leader>c :Commentary<cr>
 
-
-" Vista
-nnoremap <leader>t :Vista!!<cr>
-let g:vista_sidebar_width=35
-let g:vista#renderer#enable_icon = 1
-
 " vim-go
 function! s:build_go_files()
   let l:file = expand('%')
@@ -270,11 +261,18 @@ if has('gui_running')
     set guioptions-=m
     set guioptions-=T
     set guioptions-=e
-    set guifont=Hack\ Nerd\ Font:h14
+    set guifont=Fira\ Code:h12
+    if has("win32")
+        " https://github.com/tonsky/FiraCode/issues/462
+        set renderoptions=type:directx
+        " https://www.vim.org/scripts/script.php?script_id=687
+        au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 245)
+    else
+        set macligatures
+    endif
     set linespace=3
-    set macligatures
-    set lines=75
-    set columns=250
+    set lines=38
+    set columns=150
 endif
 
 " terminal
