@@ -1,0 +1,134 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "alwaysShowTabs" : false,
+    "defaultProfile" : "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+    "initialCols" : 150,
+    "initialRows" : 40,
+    "keybindings" : 
+    [
+        {
+            "command": "paste",
+            "keys": ["ctrl+v"]
+        },
+        {
+            "command": "copy",
+            "keys": ["ctrl+c"]
+        },
+        {
+            "command" : "closeTab",
+            "keys" : ["alt+w"]
+        },
+        {
+            "command" : "newTab",
+            "keys" : ["alt+t"]
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "vertical",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+d"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "horizontal",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+shift+d"
+        },
+        {
+            "command" : "nextTab",
+            "keys" : ["alt+l"]
+        },
+        {
+            "command" : "prevTab",
+            "keys" : ["alt+h"]
+        },
+        {
+            "command" : "openSettings",
+            "keys" : ["ctrl+,"]
+        }
+    ],
+    "requestedTheme" : "Dark",
+    "showTabsInTitlebar" : true,
+    "showTerminalTitleInTitlebar" : true,
+    "wordDelimiters" : " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502",
+    "profiles" : {
+        "defaults": 
+        {
+            "closeOnExit": "always",
+            "colorScheme": "Darcula",
+            "cursorShape": "filledBox",
+            "fontFace": "MesloLGS NF",
+            "fontSize": 12,
+            "historySize": 9001,
+            "padding": "0, 0, 0, 0",
+            "useAcrylic" : true,
+            "acrylicOpacity" : 0.8
+        },
+        "list":
+        [
+            {
+                "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+                "hidden": false,
+                "name": "Ubuntu-18.04",
+                "snapOnInput": true,
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "//wsl$/Ubuntu-18.04/home/acker"
+            },
+            {
+                "guid": "{ef9560f4-baf0-4587-bd37-fd66c99a03bb}",
+                "commandline": "\"E:\\software\\Git\\bin\\bash.exe\" -i -l",
+                "icon": "ms-appdata:///roaming/git-bash_32px.ico",
+                "name": "Git Bash",
+                "snapOnInput": true,
+                "startingDirectory": "E:\\Code"
+            },
+            {
+                "commandline" : "powershell.exe",
+                "guid" : "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "icon" : "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png",
+                "name" : "Windows PowerShell",
+                "snapOnInput" : true,
+                "startingDirectory" : "%USERPROFILE%"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{6f9994f0-4403-5e85-9cce-98e5da3839bb}",
+                "hidden": false,
+                "name": "Ubuntu-16.04",
+                "source": "Windows.Terminal.Wsl"
+            }
+        ]
+    },
+    "schemes" : [
+        {
+            "name": "Darcula",
+            "black": "#000000",
+            "red": "#ff5555",
+            "green": "#50fa7b",
+            "yellow": "#f1fa8c",
+            "blue": "#bd93f9",
+            "purple": "#ff79c6",
+            "cyan": "#8be9fd",
+            "white": "#bbbbbb",
+            "brightBlack": "#555555",
+            "brightRed": "#ff5555",
+            "brightGreen": "#50fa7b",
+            "brightYellow": "#f1fa8c",
+            "brightBlue": "#bd93f9",
+            "brightPurple": "#ff79c6",
+            "brightCyan": "#8be9fd",
+            "brightWhite": "#ffffff",
+            "background": "#1e1f29",
+            "foreground": "#f8f8f2"
+        }
+    ]
+}
