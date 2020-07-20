@@ -27,13 +27,14 @@ source $ZSH/oh-my-zsh.sh
 export ZPLUG_HOME="/usr/local/opt/zplug"
 source $ZPLUG_HOME/init.zsh
 
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug 'romkatv/powerlevel10k', as:theme, depth:1
+zplug "zplug/zplug", hook-build:'zplug --self-manage'
+zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
 
-zplug 'zsh-users/zsh-autosuggestions'
+zplug "paulirish/git-open"
+zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
 
