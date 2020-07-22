@@ -17,17 +17,6 @@ cp gitconfig ~/.gitconfig
 cp ideavimrc ~/.ideavimrc
 cp p10k.zsh ~/.p10k.zsh
 
-if read -t 5 -p "(*^▽^*) Would you want to use github proxy [Y/N]?" is_install; then
-    case "$is_install" in
-        [Yy]* )
-            cat ssh/config >> ~/.ssh/config;;
-        [Nn]* )
-            echo "Skip github proxy"
-    esac
-else
-    echo "\nSkip github proxy"
-fi
-
 if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; then
     case "$is_install" in
         [Yy]* )
@@ -48,22 +37,6 @@ if read -t 5 -p "(*^▽^*) Would you want to use my vimrc [Y/N]?" is_install; th
     esac
 else
     echo "\nSkip install vim plugins"
-fi
-
-# use brew bundle manager homebrew packages
-which brew >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    if read -t 5 -p "(*^▽^*) Would you want to install Homebrew packages [Y/N]?" is_install; then
-        case "$is_install" in
-            [Yy]* )
-                echo "Homebrew packages installing"
-                brew bundle install --no-upgrade --no-lock;;
-            [Nn]* )
-                echo "Skip install Homebrew packages"
-        esac
-    else
-        echo "\nSkip install homebrew packages"
-    fi
 fi
 
 

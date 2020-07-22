@@ -37,14 +37,20 @@ nnoremap <leader>y viwy
 " register
 vnoremap p "_dP
 
-" VIM Buffer
+" buffer
 noremap <leader>dw :bp\|bd #<cr>      " close current buffer
 noremap <leader>bo :%bd\|e#\|bd#<cr>  " close other buffers, except current
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
-nnoremap <leader>w :w<cr>
-vnoremap <leader>w <esc>:w<cr>
+nnoremap <leader>w :wa<cr>
+vnoremap <leader>w <esc>:wa<cr>
 nnoremap <leader>q :q<cr>
+
+" resize window
+noremap + :resize +4<cr>
+noremap _ :resize -4<cr>
+noremap = :vertical resize +4<cr>
+noremap - :vertical resize -4<cr>
 
 " move window
 nnoremap <c-h> <c-w><c-h>
@@ -80,6 +86,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
 Plug 'yggdroot/indentLine'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

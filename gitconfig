@@ -60,3 +60,5 @@
 	email = wzmmmmj@gmail.com
 [github]
     user = Ackerr
+[includeIf "gitdir:~/zaihui/"]
+    path = ~/.gitconfig-zaihui

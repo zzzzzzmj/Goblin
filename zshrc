@@ -57,14 +57,13 @@ if command -v pyenv 1>/dev/null 2>&1; then
  eval eval "$(pyenv init -)"
 fi
 
-export PYTHON_CONFIGURE_OPTS="--enable-framework"
-export PATH="$PYTHON_CONFIGURE_OPTS:$HOME/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$PATH"
 
 # go
 export GOPATH="$HOME/go-base"
 export PATH="${GOPATH}:${GOPATH}/bin:${GOROOT}:${GOROOT}/bin:${PATH}"
 export GO111MODULE=on
-export GOPROXY='https://goproxy.cn'
+export GOPROXY='https://goproxy.cn,direct'
 
 # pipenv
 export PIPENV_VERBOSITY=-1
