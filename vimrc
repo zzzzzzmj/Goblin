@@ -18,6 +18,8 @@ set tabstop=4
 set expandtab
 set clipboard=unnamed
 
+set noswapfile  " 不需要.swp文件
+
 " fold
 set foldenable
 set foldmethod=indent
@@ -81,6 +83,13 @@ Plug 'mattn/vim-gist', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'brooth/far.vim'
+
+" move
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'junegunn/fzf', { 'do': './install --all'  }
+Plug 'junegunn/fzf.vim'
 
 " programming
 Plug 'dense-analysis/ale'
@@ -93,11 +102,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'janko/vim-test'
 
-" move
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-Plug 'junegunn/fzf', { 'do': './install --all'  }
-Plug 'junegunn/fzf.vim'
+" db
+Plug 'tpope/vim-dotenv'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " makrdown
 Plug 'godlygeek/tabular', { 'for': 'markdown' }
@@ -122,6 +130,16 @@ nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fgf :GFiles?<cr>
 nnoremap <silent> <leader>fgb :Gblame --date=short<cr>
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 
 " color
@@ -180,6 +198,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " Airline
+set noshowmode
+set laststatus=2
+set t_Co=256
+
 let g:airline_theme='violet'
 let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
 let g:airline_left_sep = ''
@@ -274,12 +296,14 @@ if has('gui_running')
         set renderoptions=type:directx
         " https://www.vim.org/scripts/script.php?script_id=687
         au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 245)
+        set lines=38
+        set columns=150
     else
         set macligatures
     endif
     set linespace=3
-    set lines=38
-    set columns=150
+    set lines=50
+    set columns=180
 endif
 
 " terminal

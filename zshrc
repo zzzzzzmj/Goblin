@@ -61,7 +61,7 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 
 # go
 export GOPATH="$HOME/go-base"
-export PATH="${GOPATH}:${GOPATH}/bin:${GOROOT}:${GOROOT}/bin:${PATH}"
+export PATH="${GOPATH}:${GOPATH}/bin:${PATH}"
 export GO111MODULE=on
 export GOPROXY='https://goproxy.cn,direct'
 
