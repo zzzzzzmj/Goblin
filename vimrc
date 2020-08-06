@@ -60,12 +60,10 @@ nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 
-
 filetype off
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'doums/darcula'
-" Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -101,6 +99,10 @@ Plug 'yggdroot/indentLine'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'janko/vim-test'
+Plug 'antoinemadec/coc-fzf'
+
+" terminal
+Plug 'skywind3000/vim-terminal-help'
 
 " db
 Plug 'tpope/vim-dotenv'
@@ -126,6 +128,7 @@ let g:fzf_preview_window = 'right:70%'
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6} }
 
 nnoremap <silent> <leader>fr :Rg<cr>
+xnoremap <silent> <leader>fr y:Rg <c-r>"<cr>
 nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fgf :GFiles?<cr>
@@ -142,13 +145,31 @@ endfunction
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 
-" color
-colorscheme darcula
+"coc-fzf
+let g:coc_fzf_preview='right:70%'
+let g:coc_fzf_opts=['--layout=reverse']
+nnoremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
+nnoremap <silent> <m-e> :<C-u>CocFzfList extensions<CR>
 
-" fix darcula gui cursor
-highlight Cursor guibg=#7F70F0
+" fzf-preview
+let g:fzf_preview_floating_window_rate = 0.7
+let g:fzf_preview_fzf_preview_window_option = 'right:70%'
+let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
+
+" colorscheme
+set t_Co=256
+colorscheme darcula
+" fix darcula gui  cursor
+highlight Cursor guibg=#7F70F0 guifg=#5F5A60
+" fix darcula nvim cursor
+highlight CursorLine guifg=none
 set termguicolors
 set background=dark
+
+hi! link GitGutterAdd GitAddStripe
+hi! link GitGutterChange GitChangeStripe
+hi! link GitGutterDelete GitDeleteStripe
+let g:gitgutter_sign_removed = '▶'
 
 " NERDtree
 let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git$', '.idea', '.vscode', '\.swp']
@@ -200,7 +221,6 @@ nmap ga <Plug>(EasyAlign)
 " Airline
 set noshowmode
 set laststatus=2
-set t_Co=256
 
 let g:airline_theme='violet'
 let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
@@ -290,45 +310,29 @@ if has('gui_running')
     set guioptions-=m
     set guioptions-=T
     set guioptions-=e
-    set guifont=Fira\ Code:h12
     if has("win32")
         " https://github.com/tonsky/FiraCode/issues/462
+        set guifont=Fira\ Code:h12
         set renderoptions=type:directx
         " https://www.vim.org/scripts/script.php?script_id=687
         au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 245)
         set lines=38
         set columns=150
     else
+        set guifont=Fira\ Code:h14
         set macligatures
+        set lines=60
+        set columns=250
     endif
     set linespace=3
-    set lines=50
-    set columns=180
 endif
 
 " terminal
-nnoremap <silent> <leader>5 :botright term ++kill=term ++rows=20<cr>
-nnoremap <silent> 44 :call TerminalToggle()<CR>
-tnoremap <silent> 44 <c-w>:call TerminalToggle()<CR>
-tnoremap <Esc> <c-\><c-n>
-function! TerminalToggle()
-    let name = "terminal"
-    let bufferNum = bufnr(name)
-    if bufferNum == -1 || bufloaded(bufferNum) != 1
-        execute 'silent botright term ++close ++kill=term ++rows=20'
-        execute 'silent file '.name
-        execute 'silent set nobuflisted'
-    else
-        let bufWinNum = bufwinnr(name)
-        if bufWinNum == -1
-            execute "silent botright sbuffer ".name
-            execute "resize -5"
-        else
-            execute "silent ".bufWinNum." wincmd w"
-            hide
-        endif
-    endif
-endfunction
+let g:terminal_height=20
+let g:terminal_cwd=2
+let g:terminal_kill='term'
+let g:terminal_close=1
+let g:terminal_list=0
 
 " coc.nvim
 " ===================
@@ -383,10 +387,10 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -434,18 +438,9 @@ omap af <Plug>(coc-funcobj-a)
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?
-" nmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
-
-" Use `:Format` to format current buffer
-" command! -nargs=0 Format :call CocAction('format')
-
-" Use `:Fold` to fold current buffer
-" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" use `:OR` for organize import of current buffer
-" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
@@ -457,9 +452,7 @@ au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
 let test#python#runner = 'djangotest'
 let test#vim#term_position = "belowright"
 let test#strategy = "vimterminal"
-nnoremap <leader>utn :TestNearest<CR>
-nnoremap <leader>utf :TestFile<CR>
-nnoremap <leader>utl :TestLast<CR>
-nnoremap <leader>utv :TestVisit<CR>
-
-let g:netrw_browsex_viewer="open"
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tv :TestVisit<CR>

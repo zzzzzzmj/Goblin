@@ -31,6 +31,7 @@ zplug "zplug/zplug", hook-build:'zplug --self-manage'
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 zplug "plugins/vi-mode", from:oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
 
 zplug "paulirish/git-open"
@@ -57,6 +58,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
  eval eval "$(pyenv init -)"
 fi
 
+if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
+  source "${VIRTUAL_ENV}/bin/activate"
+fi
+
 export PATH="$HOME/.pyenv/bin:$PATH"
 
 # go
@@ -64,6 +69,12 @@ export GOPATH="$HOME/go-base"
 export PATH="${GOPATH}:${GOPATH}/bin:${PATH}"
 export GO111MODULE=on
 export GOPROXY='https://goproxy.cn,direct'
+
+# ruby
+export GEM_HOME="~/.gem"
+export GEM_PATH="~/.gem"
+export PATH="${PATH}:${GEM_PATH}:${GEM_PATH}/bin"
+
 
 # pipenv
 export PIPENV_VERBOSITY=-1
