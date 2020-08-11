@@ -16,6 +16,7 @@ alias sssh='ssh -t agate ssh -t'
 alias vim-install='vim +PlugInstall +qall'
 alias cgd='hexo clean && hexo g && hexo d'
 
+
 # other
 alias leet='leet(){ mkdir -p $1 && cd $1 && touch solution.py solution.go solution_test.go README.md;};leet'
 
@@ -37,15 +38,15 @@ alias dc="docker-compose"
 alias dps="docker ps"
 
 alias drm='docker rm $(docker ps -a -q)'
-alias drmi='rmi(){ docker rmi $(docker images | grep $1 | awk "{print $3}");};rmi'
+rmi() { docker rmi `docker images | grep $1 | awk '{print $3}'`; }
 
 # k8s
 alias k='kubectl'
+alias kk='k9s'
 alias km='kustomize'
 alias kg='kubectl get'
 alias kc='kubectl config'
-alias kf='kubectl apply -f'
-alias kk='kubectl apply -k'
+alias ka='kubectl apply'
 alias kd='kubectl delete'
 alias kgp='kubectl get pod'
 alias kex='kubectl exec -it'
@@ -64,3 +65,8 @@ z() {
     [ $# -gt 0 ] && _z "$*" && return
     cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
+
+pbrew() { ALL_PROXY='socks5://127.0.0.1:7891' brew $@; }
+
+# lab
+alias lb='lab browser'

@@ -52,6 +52,7 @@ zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
+export BAT_THEME='Dracula'
 
 # pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
@@ -75,15 +76,14 @@ export GEM_HOME="~/.gem"
 export GEM_PATH="~/.gem"
 export PATH="${PATH}:${GEM_PATH}:${GEM_PATH}/bin"
 
-
-# pipenv
-export PIPENV_VERBOSITY=-1
-
 # fzf
 [ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 bindkey '^T' fzf-file-widget
 export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles,__pycache__'} --hidden --follow"
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --pointer='▶' --marker='✓' --preview-window=:70%"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --pointer='▶' --marker='✓' --preview-window=:70% "
+export FZF_PREVIEW_OPTS="--preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+
+export FZF_CTRL_T_OPTS="$FZF_PREVIEW_OPTS"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type f"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
