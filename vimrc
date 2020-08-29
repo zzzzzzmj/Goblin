@@ -1,5 +1,12 @@
 let mapleader = " "
 
+" neovim
+if has("nvim")
+  let g:python_host_prog='/usr/bin/python2'
+  let g:python3_host_prog='~/.pyenv/shims/python'
+  let g:ruby_host_prog = '~/.gem/bin/neovim-ruby-host'
+endif
+
 set nocompatible
 set autoindent
 set backspace=2
@@ -88,6 +95,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/vim-slash'
 
 " programming
 Plug 'dense-analysis/ale'
@@ -98,7 +106,7 @@ Plug 'honza/vim-snippets'
 Plug 'yggdroot/indentLine'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
-Plug 'janko/vim-test'
+" Plug 'janko/vim-test'
 Plug 'antoinemadec/coc-fzf'
 
 " terminal
@@ -143,13 +151,29 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! -nargs=* -bang BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
 
 
 "coc-fzf
 let g:coc_fzf_preview='right:70%'
 let g:coc_fzf_opts=['--layout=reverse']
+nnoremap <silent> <m-a> :<C-u>CocFzfList commands<CR>
 nnoremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
-nnoremap <silent> <m-e> :<C-u>CocFzfList extensions<CR>
 
 " fzf-preview
 let g:fzf_preview_floating_window_rate = 0.7
@@ -158,6 +182,7 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
+set background=dark
 colorscheme darcula
 " fix darcula gui  cursor
 highlight Cursor guibg=#7F70F0 guifg=#5F5A60
@@ -189,11 +214,9 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Ale
 autocmd FileType python noremap <buffer> <F7> :ALEFix<cr>
-autocmd BufWritePre *.py :ALEFix
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['isort', 'black'],
-\   'py': ['isort', 'black'],
 \   'go': ['gofmt'],
 \}
 let g:ale_linters = {
@@ -218,9 +241,17 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+let g:easy_align_delimiters = {
+\ '>': { 'pattern': '>>\|=>\|>' },
+\ '/': {
+\     'pattern':         '//\+\|/\*\|\*/',
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment'] },
+\ }
+
 " Airline
 set noshowmode
-set laststatus=2
+set laststatus=1
 
 let g:airline_theme='violet'
 let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
@@ -343,17 +374,23 @@ set hidden
 set nobackup
 set nowritebackup
 
-" Better display for messages
+" " Better display for messages
 set cmdheight=1
 
 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+set updatetime=100
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns
-set signcolumn=yes
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -375,11 +412,10 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
+if exists('*complete_info')
   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -402,9 +438,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -436,23 +469,23 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
-" python
-au FileType python nmap <leader>r :w<cr>:botright term ++rows=20 python "%"<cr>
-
-" vim-test
-let test#python#runner = 'djangotest'
-let test#vim#term_position = "belowright"
-let test#strategy = "vimterminal"
-nnoremap <leader>tn :TestNearest<CR>
-nnoremap <leader>tf :TestFile<CR>
-nnoremap <leader>tl :TestLast<CR>
-nnoremap <leader>tv :TestVisit<CR>
+" coc-translator
+" popup
+nmap <m-t> <Plug>(coc-translator-p)
+vmap <m-t> <Plug>(coc-translator-pv)
+" echo
+nmap <m-e> <Plug>(coc-translator-e)
+vmap <m-e> <Plug>(coc-translator-ev)
+" replace
+nmap <m-r> <Plug>(coc-translator-r)
+vmap <m-r> <Plug>(coc-translator-rv)
