@@ -5,56 +5,59 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#If you come from bash you might have to change your $PATH
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# zinit
+source ${HOME}/.zinit/bin/zinit.zsh
 
-# Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
+# plugins
+zinit ice lucid wait='1'
+zinit light skywind3000/z.lua
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME='powerlevel10k/powerlevel10k'
+zinit ice lucid wait='0' atinit='zpcompinit'
+zinit light zdharma/fast-syntax-highlighting
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+zinit ice lucid wait='0' atload='_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 
+zinit ice lucid wait='0'
+zinit light zsh-users/zsh-completions
 
-# zplug
-export ZPLUG_HOME="/usr/local/opt/zplug"
-source $ZPLUG_HOME/init.zsh
+zinit ice lucid wait='1'
+zinit light paulirish/git-open
 
-zplug "zplug/zplug", hook-build:'zplug --self-manage'
-zplug "romkatv/powerlevel10k", as:theme, depth:1
-
-zplug "plugins/vi-mode", from:oh-my-zsh
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/z", from:oh-my-zsh
-
-zplug "paulirish/git-open"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "b4b4r07/zsh-vimode-visual", defer:3
-
-if ! zplug check; then
-  zplug install
-fi
-
-zplug load
-
+# vi-mode
+zinit ice lucid wait='1'
+zinit light b4b4r07/zsh-vimode-visual
 set -o vi
 zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected text
 
-# You may need to manually set your language environment
+# oh-my-zsh plugins
+zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+zinit snippet OMZ::lib/history.zsh
+zinit snippet OMZ::lib/git.zsh
+zinit snippet OMZ::lib/grep.zsh
+zinit snippet OMZ::lib/theme-and-appearance.zsh
+zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
+# export ZSH="${HOME}/.oh-my-zsh"
+# source $ZSH/oh-my-zsh.sh
+
+zinit ice lucid wait='1'
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+
+# p10k theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
 export BAT_THEME='Dracula'
 
-# pyenv
+# python
 if command -v pyenv 1>/dev/null 2>&1; then
  eval eval "$(pyenv init -)"
 fi
@@ -70,11 +73,6 @@ export GOPATH="$HOME/go-base"
 export PATH="${GOPATH}:${GOPATH}/bin:${PATH}"
 export GO111MODULE=on
 export GOPROXY='https://goproxy.cn,direct'
-
-# ruby
-export GEM_HOME="~/.gem"
-export GEM_PATH="~/.gem"
-export PATH="${PATH}:${GEM_PATH}:${GEM_PATH}/bin"
 
 # fzf
 [ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
@@ -93,5 +91,16 @@ export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
