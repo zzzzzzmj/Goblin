@@ -1,18 +1,21 @@
+// https://docs.microsoft.com/en-us/windows/terminal/customize-settings/global-settings
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
+    "theme": "dark",
     "alwaysShowTabs" : false,
-    "defaultProfile" : "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
+    "defaultProfile" : "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
     "initialCols" : 150,
+    "largePasteWarning": false,
     "initialRows" : 40,
     "keybindings" : 
     [
         {
             "command": "paste",
-            "keys": ["ctrl+v"]
+            "keys": ["alt+v"]
         },
         {
             "command": "copy",
-            "keys": ["ctrl+c"]
+            "keys": ["alt+c"]
         },
         {
             "command" : "closeTab",
@@ -48,10 +51,10 @@
         },
         {
             "command" : "openSettings",
-            "keys" : ["ctrl+,"]
+            "keys" : ["alt+,"]
         }
     ],
-    "requestedTheme" : "Dark",
+    "requestedTheme" : "dark",
     "showTabsInTitlebar" : true,
     "showTerminalTitleInTitlebar" : true,
     "wordDelimiters" : " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502",
@@ -59,11 +62,11 @@
         "defaults": 
         {
             "closeOnExit": "always",
-            "colorScheme": "Darcula",
-            "cursorShape": "filledBox",
-            "fontFace": "MesloLGS NF",
-            "fontSize": 12,
-            "historySize": 9001,
+            "colorScheme": "One Half Dark",
+            "cursorShape": "bar",
+            "fontFace": "FuraCode NF",
+            "fontSize": 13,
+            "historySize": 10000,
             "padding": "0, 0, 0, 0",
             "useAcrylic" : true,
             "acrylicOpacity" : 0.8
@@ -71,20 +74,26 @@
         "list":
         [
             {
+                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+                "hidden": false,
+                "name": "Arch",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "//wsl$/Arch/root"
+            },
+            {
+                "guid": "{ef9560f4-baf0-4587-bd37-fd66c99a03bb}",
+                "commandline": "\"E:\\software\\Git\\bin\\bash.exe\" -i -l",
+                "name": "Git Bash",
+                "snapOnInput": true,
+                "startingDirectory": "E:\\Code"
+            },
+            {
                 "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
                 "hidden": false,
                 "name": "Ubuntu-18.04",
                 "snapOnInput": true,
                 "source": "Windows.Terminal.Wsl",
                 "startingDirectory": "//wsl$/Ubuntu-18.04/home/acker"
-            },
-            {
-                "guid": "{ef9560f4-baf0-4587-bd37-fd66c99a03bb}",
-                "commandline": "\"E:\\software\\Git\\bin\\bash.exe\" -i -l",
-                "icon": "ms-appdata:///roaming/git-bash_32px.ico",
-                "name": "Git Bash",
-                "snapOnInput": true,
-                "startingDirectory": "E:\\Code"
             },
             {
                 "commandline" : "powershell.exe",
@@ -96,7 +105,7 @@
             },
             {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                "hidden": false,
+                "hidden": true,
                 "name": "Azure Cloud Shell",
                 "source": "Windows.Terminal.Azure"
             },
@@ -129,6 +138,27 @@
             "brightWhite": "#ffffff",
             "background": "#1e1f29",
             "foreground": "#f8f8f2"
+        },
+        {
+            "name" : "One Half Dark",
+            "background" : "#282C34",
+            "black" : "#282C34",
+            "blue" : "#61AFEF",
+            "brightBlack" : "#282C34",
+            "brightBlue" : "#61AFEF",
+            "brightCyan" : "#56B6C2",
+            "brightGreen" : "#98C379",
+            "brightPurple" : "#C678DD",
+            "brightRed" : "#E06C75",
+            "brightWhite" : "#DCDFE4",
+            "brightYellow" : "#E5C07B",
+            "cyan" : "#56B6C2",
+            "foreground" : "#DCDFE4",
+            "green" : "#98C379",
+            "purple" : "#C678DD",
+            "red" : "#E06C75",
+            "white" : "#DCDFE4",
+            "yellow" : "#E5C07B"
         }
     ]
 }
