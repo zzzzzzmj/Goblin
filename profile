@@ -62,11 +62,14 @@ alias gbr='git co `git br | fzf`'
 
 unalias z 2> /dev/null
 z() {
-    [ $# -gt 0 ] && _z "$*" && return
-    cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+    [ $# -gt 0 ] && _zlua "$*" && return
+    cd "$(_zlua -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
 pbrew() { ALL_PROXY='socks5://127.0.0.1:7891' brew $@; }
 
 # lab
 alias lb='lab browser'
+
+# ranger
+alias ra='ranger'

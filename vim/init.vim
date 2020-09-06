@@ -124,7 +124,7 @@ Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
-Plug 'dstein64/vim-startuptime'
+" Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 filetype plugin indent on

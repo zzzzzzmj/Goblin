@@ -25,6 +25,9 @@ zinit light zsh-users/zsh-completions
 zinit ice lucid wait='1'
 zinit light paulirish/git-open
 
+zinit ice lucid wait='1'
+zinit light Aloxaf/fzf-tab
+
 # vi-mode
 zinit ice lucid wait='1'
 zinit light b4b4r07/zsh-vimode-visual

@@ -3,9 +3,41 @@
         "golang":{
             "command": "gopls",
             "rootPatterns": ["go.mod"],
-            "filetypes":["go"]
+            "filetypes":["go"],
+		    "initializationOptions": {
+                "gocodeCompletionEnabled": true,
+                "diagnosticsEnabled": true,
+                "lintTool": "golint"
+            }
         }
     },
+    "python.jediEnabled": true,
+    "python.autoComplete.addBrackets": true,
     "python.formatting.provider": "black",
-    "diagnostic.displayByAle": false
+    "python.formatting.blackArgs": ["--line-length=120"],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=120"],
+    "clangd.path": "/Users/a1/.config/coc/extensions/coc-clangd-data/install/10.0.0/clangd_10.0.0/bin/clangd",
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.formatOnSaveFiletypes": ["go", "python"],
+    "diagnostic.enable": true,
+    "diagnostic.signOffset": 1,
+    "diagnostic.displayByAle": false,
+    "diagnostic.level": "information",
+    "diagnostic.errorSign": "\uf467",
+    "diagnostic.warningSign": "\uf071",
+    "diagnostic.infoSign": "\uf129",
+    "diagnostic.hintSign": "\uf864",
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.refreshOnInsertMode": false,
+    "diagnostic.refreshAfterSave": true,
+    "codeLens.enable": true,
+    "explorer.width": 30,
+	"explorer.icon.enableNerdfont": true,
+	"explorer.quitOnOpen": true,
+	"explorer.file.showHiddenFiles": true,
+	"explorer.file.column.indent.indentLine": true,
+	"explorer.file.column.git.showIgnored": true,
+	"explorer.keyMappingMode": "none",
+	"explorer.buffer.showHiddenBuffers": true
 }
