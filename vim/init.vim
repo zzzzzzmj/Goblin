@@ -2,9 +2,8 @@ let mapleader = " "
 
 " neovim
 if has("nvim")
-  let g:python_host_prog='/usr/bin/python2'
-  let g:python3_host_prog='~/.pyenv/shims/python'
-  let g:ruby_host_prog = '~/.gem/bin/neovim-ruby-host'
+  let g:python_host_prog='/usr/sbin/python2'
+  let g:python3_host_prog='/usr/sbin/python'
 endif
 
 set nocompatible
@@ -94,6 +93,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 " Plug 'junegunn/vim-slash'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim'
 
 " programming
 " Plug 'dense-analysis/ale'
@@ -124,7 +125,7 @@ Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
-" Plug 'dstein64/vim-startuptime'
+Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 filetype plugin indent on
@@ -460,3 +461,11 @@ nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<C
 
 " coc-explorer
 " nnoremap <silent> <leader>n :CocCommand explorer<cr>
+"
+" ranger.vim
+let g:ranger_map_keys = 0
+let g:NERDTreeHijackNetrw = 0
+let g:ranger_replace_netrw = 1
+
+nmap <leader>ra :RangerCurrentDirectory<cr>
+
