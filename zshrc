@@ -9,7 +9,6 @@ fi
 source ${HOME}/.zinit/bin/zinit.zsh
 
 # plugins
-zinit ice lucid wait='1'
 zinit light skywind3000/z.lua
 
 zinit ice lucid wait='0' atinit='zpcompinit'
@@ -54,11 +53,11 @@ zinit snippet OMZ::plugins/git/git.plugin.zsh
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
 
-
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
 export BAT_THEME='Dracula'
+export EDITOR='nvim'
 
 # python
 if command -v pyenv 1>/dev/null 2>&1; then
