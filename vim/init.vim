@@ -2,8 +2,7 @@ let mapleader = " "
 
 " neovim
 if has("nvim")
-  let g:python_host_prog='/usr/sbin/python2'
-  let g:python3_host_prog='/usr/sbin/python'
+  source $HOME/.config/nvim/nvim.vim
 endif
 
 set nocompatible
@@ -23,6 +22,7 @@ set softtabstop=4
 set tabstop=4
 set expandtab
 set clipboard=unnamed
+set scrolloff=5
 
 set noswapfile  " 不需要.swp文件
 
@@ -31,11 +31,6 @@ set foldenable
 set foldmethod=indent
 set foldlevel=99
 
-" filetype
-autocmd! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 inoremap jk <Esc>
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
@@ -46,12 +41,12 @@ nnoremap <leader>y viwy
 vnoremap p "_dP
 
 " buffer
-noremap <leader>dw :bp\|bd #<cr>      " close current buffer
+noremap <leader>dd :bp\|bd #<cr>      " close current buffer
 noremap <leader>bo :%bd\|e#\|bd#<cr>  " close other buffers, except current
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
-nnoremap <leader>w :wa<cr>
-vnoremap <leader>w <esc>:wa<cr>
+nnoremap <leader>w :w<cr>
+vnoremap <leader>w <esc>:w<cr>
 nnoremap <leader>q :q<cr>
 
 " resize window
@@ -71,6 +66,8 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'doums/darcula'
 Plug 'mhinz/vim-startify'
+Plug 'ryanoasis/vim-devicons'
+" Plug 'rbong/vim-crystalline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -81,9 +78,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/vim-cursorword'
 Plug 'junegunn/vim-easy-align'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'mattn/vim-gist', { 'on': 'Gist' }
-Plug 'mattn/webapi-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'brooth/far.vim'
@@ -92,40 +86,27 @@ Plug 'brooth/far.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/vim-slash'
-Plug 'rbgrouleff/bclose.vim'
+Plug 'voldikss/vim-floaterm'
+if has("nvim")
+    Plug 'rbgrouleff/bclose.vim'
+endif
 Plug 'francoiscabrol/ranger.vim'
 
 " programming
-" Plug 'dense-analysis/ale'
+" Plug 'yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
-Plug 'yggdroot/indentLine'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
-" Plug 'janko/vim-test'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 
-" terminal
-Plug 'skywind3000/vim-terminal-help'
-
-" db
-" Plug 'tpope/vim-dotenv'
-" Plug 'tpope/vim-dadbod'
-" Plug 'kristijanhusak/vim-dadbod-ui'
-
-" makrdown
-" Plug 'godlygeek/tabular', { 'for': 'markdown' }
-" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-" Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
-
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
-Plug 'dstein64/vim-startuptime'
+" Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 filetype plugin indent on
@@ -181,56 +162,34 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-set background=dark
 colorscheme darcula
 " fix darcula gui  cursor
-highlight Cursor guibg=#7F70F0 guifg=#5F5A60
+" highlight Cursor guibg=#7F70F0 guifg=#5F5A60
 " fix darcula nvim cursor
 highlight CursorLine guifg=none
 set termguicolors
 set background=dark
 
+" Gitgutter
 hi! link GitGutterAdd GitAddStripe
 hi! link GitGutterChange GitChangeStripe
 hi! link GitGutterDelete GitDeleteStripe
 let g:gitgutter_sign_removed = '▶'
+let g:gitgutter_preview_win_floating = 1
 
-" NERDtree
+" NerdTree
 let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git$', '.idea', '.vscode', '\.swp']
 let NERDTreeChDirMode=3
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeMinimalUI=1
-let NERDTreeRemoveFileCmd='rm '
 let NERDTreeAutoDeleteBuffer=1
 let g:nerdtree_tabs_focus_on_files=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
+nnoremap <leader>m :NERDTreeFind<CR>
 nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <leader>m :NERDTreeCWD<cr>
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Ale
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'python': ['isort', 'black'],
-" \   'go': ['gofmt'],
-" \}
-" let g:ale_linters = {
-" \   'python': ['flake8'],
-" \   'go': ['gloangci-lint'],
-" \}
-
-" let g:ale_sign_error = '✗'
-" let g:ale_python_black_options='--line-length=120'
-" let g:ale_python_flake8_options='--max-line-length=120'
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
-" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" let g:ale_fix_on_save=1
-" let g:ale_linter_on_save=1
-" let g:ale_lint_on_insert_leave=1
-" let g:ale_lint_on_text_changed='never'
 
 " EasyAlign
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -261,29 +220,52 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
-let g:airline#extensions#ale#enabled = 1
 let g:airline_highlighting_cache=1
-let g:airline_extensions=["tabline", "ale", "coc", "branch"]
+let g:airline_extensions=["tabline", "coc", "branch"]
 
 " Comment
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
+nnoremap <leader>/ :Commentary<cr>
+vnoremap <leader>/ :Commentary<cr>
 
 " vim-go
 let g:go_list_type = "quickfix"
 let g:go_def_mode = 'gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
-let g:go_fmt_autosave = 1
+let g:go_fmt_autosave = 0
 let g:go_doc_popup_window = 1
 let g:go_doc_keywordprg_enabled = 0
 
-" " markdown
-" let g:instant_markdown_autostart = 1
-" let g:instant_markdown_slow = 1
-" let g:vim_markdown_toc_autofit = 1
-" let g:vim_markdown_conceal = 0
-" let g:vim_markdown_conceal_code_blocks = 0
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_operators = 1
+
+augroup go
+  autocmd!
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader><leader>b :<C-u>call <SID>build_go_files()<CR>
+  " :GoFmt
+  autocmd FileType go nnoremap gf :GoFmt<cr>
+  " :GoTest
+  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+  " :GoRun
+  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+augroup END
+
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
 
 " GUI config
 if has('gui_running')
@@ -314,18 +296,12 @@ if has('gui_running')
     set linespace=3
 endif
 
-" terminal
-let g:terminal_height=20
-let g:terminal_cwd=2
-let g:terminal_kill='term'
-let g:terminal_close=1
-let g:terminal_list=0
-
 " coc.nvim
 " ===================
 let g:coc_global_extensions = [
     \ "coc-actions",
     \ "coc-diagnostic",
+    \ "coc-floaterm",
     \ "coc-lists",
     \ "coc-python",
     \ "coc-explorer",
@@ -459,13 +435,28 @@ endfunction
 xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
 nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
-" coc-explorer
-" nnoremap <silent> <leader>n :CocCommand explorer<cr>
-"
 " ranger.vim
 let g:ranger_map_keys = 0
 let g:NERDTreeHijackNetrw = 0
 let g:ranger_replace_netrw = 1
 
-nmap <leader>ra :RangerCurrentDirectory<cr>
+command! Ranger FloatermNew ranger
+nnoremap <leader>ra :Ranger<cr>
 
+" floaterm
+nnoremap <leader>t  :FloatermNew<cr>
+tnoremap <m-]> <c-\><c-n>:FloatermNext<cr>
+tnoremap <m-[> <c-\><c-n>:FloatermPrev<cr>
+
+command! Lazygit FloatermNew lazygit
+nnoremap <leader>lg :Lazygit<cr>
+
+let g:floaterm_keymap_toggle = "<m-=>"
+let g:floaterm_keymap_kill = "<m-q>"
+let g:floaterm_autoclose = 1
+let g:floaterm_width=0.7
+let g:floaterm_height=0.6
+
+" splitjoin
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>

@@ -2,9 +2,7 @@ let mapleader = " "
 
 " neovim
 if has("nvim")
-  let g:python_host_prog='/usr/bin/python2'
-  let g:python3_host_prog='~/.pyenv/shims/python'
-  let g:ruby_host_prog = '~/.gem/bin/neovim-ruby-host'
+  source $HOME/.config/nvim/nvim.vim
 endif
 
 set nocompatible
@@ -33,11 +31,6 @@ set foldenable
 set foldmethod=indent
 set foldlevel=99
 
-" filetype
-autocmd! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 inoremap jk <Esc>
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
@@ -48,7 +41,7 @@ nnoremap <leader>y viwy
 vnoremap p "_dP
 
 " buffer
-noremap <leader>dw :bp\|bd #<cr>      " close current buffer
+noremap <leader>dd :bp\|bd #<cr>      " close current buffer
 noremap <leader>bo :%bd\|e#\|bd#<cr>  " close other buffers, except current
 nnoremap H :bp<cr>
 nnoremap L :bn<cr>
@@ -74,6 +67,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'doums/darcula'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
+" Plug 'rbong/vim-crystalline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -99,16 +93,16 @@ endif
 Plug 'francoiscabrol/ranger.vim'
 
 " programming
-Plug 'yggdroot/indentLine'
+" Plug 'yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
@@ -168,10 +162,9 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-set background=dark
 colorscheme darcula
 " fix darcula gui  cursor
-highlight Cursor guibg=#7F70F0 guifg=#5F5A60
+" highlight Cursor guibg=#7F70F0 guifg=#5F5A60
 " fix darcula nvim cursor
 highlight CursorLine guifg=none
 set termguicolors
@@ -194,6 +187,7 @@ let NERDTreeAutoDeleteBuffer=1
 let g:nerdtree_tabs_focus_on_files=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 
+nnoremap <leader>m :NERDTreeFind<CR>
 nnoremap <leader>n :NERDTreeToggle<CR>
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -227,28 +221,51 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 let g:airline_highlighting_cache=1
-let g:airline_extensions=["tabline","coc", "branch"]
+let g:airline_extensions=["tabline", "coc", "branch"]
 
 " Comment
-nnoremap <leader>c :Commentary<cr>
-vnoremap <leader>c :Commentary<cr>
+nnoremap <leader>/ :Commentary<cr>
+vnoremap <leader>/ :Commentary<cr>
 
 " vim-go
 let g:go_list_type = "quickfix"
 let g:go_def_mode = 'gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
-let g:go_fmt_autosave = 1
+let g:go_fmt_autosave = 0
 let g:go_doc_popup_window = 1
 let g:go_doc_keywordprg_enabled = 0
 
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
+let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_operators = 1
 
-autocmd FileType go nmap <leader>gt <Plug>(go-test)
+augroup go
+  autocmd!
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  " :GoBuild and :GoTestCompile
+  autocmd FileType go nmap <leader><leader>b :<C-u>call <SID>build_go_files()<CR>
+  " :GoFmt
+  autocmd FileType go nnoremap gf :GoFmt<cr>
+  " :GoTest
+  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+  " :GoRun
+  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+augroup END
+
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
 
 " GUI config
 if has('gui_running')
@@ -439,3 +456,7 @@ let g:floaterm_keymap_kill = "<m-q>"
 let g:floaterm_autoclose = 1
 let g:floaterm_width=0.7
 let g:floaterm_height=0.6
+
+" splitjoin
+nmap sj :SplitjoinSplit<cr>
+nmap sk :SplitjoinJoin<cr>

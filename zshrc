@@ -11,14 +11,14 @@ source ${HOME}/.zinit/bin/zinit.zsh
 # plugins
 zinit light skywind3000/z.lua
 
-zinit ice lucid wait='0' atinit='zpcompinit'
+zinit ice lucid wait='1' atinit='zpcompinit'
 zinit light zdharma/fast-syntax-highlighting
 
-zinit ice lucid wait='0' atload='_zsh_autosuggest_start'
+zinit ice lucid wait='1' atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 
-zinit ice lucid wait='0'
+zinit ice lucid wait='1'
 zinit light zsh-users/zsh-completions
 
 zinit ice lucid wait='1'
@@ -41,8 +41,6 @@ zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/grep.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
-# export ZSH="${HOME}/.oh-my-zsh"
-# source $ZSH/oh-my-zsh.sh
 
 zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
