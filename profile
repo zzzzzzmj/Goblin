@@ -43,6 +43,7 @@ rmi() { docker rmi `docker images | grep $1 | awk '{print $3}'`; }
 # k8s
 alias k='kubectl'
 alias kk='k9s'
+alias kx='kubectx'
 alias km='kustomize'
 alias kg='kubectl get'
 alias kc='kubectl config'
@@ -66,10 +67,12 @@ z() {
     cd "$(_zlua -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
-pbrew() { ALL_PROXY='socks5://127.0.0.1:7891' brew $@; }
+pbrew() { ALL_PROXY='socks5://127.0.0.1:7890' brew $@; }
 
 # lab
 alias lb='lab browser'
+alias lo='lab open'
+alias lc='lab clone'
 
 # ranger
 alias ra='ranger'
