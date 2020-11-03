@@ -81,6 +81,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'brooth/far.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi'
 
 " move
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -102,7 +104,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 
-" Plug 'wakatime/vim-wakatime'
+Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'
@@ -152,7 +154,6 @@ command! -nargs=* -bang BD call fzf#run(fzf#wrap({
 "coc-fzf
 let g:coc_fzf_preview='right:70%'
 let g:coc_fzf_opts=['--layout=reverse']
-nnoremap <silent> <m-a> :<C-u>CocFzfList commands<CR>
 nnoremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
 
 " fzf-preview
@@ -299,6 +300,7 @@ endif
 " coc.nvim
 " ===================
 let g:coc_global_extensions = [
+    \ "coc-marketplace",
     \ "coc-actions",
     \ "coc-diagnostic",
     \ "coc-floaterm",
@@ -440,8 +442,8 @@ let g:ranger_map_keys = 0
 let g:NERDTreeHijackNetrw = 0
 let g:ranger_replace_netrw = 1
 
-command! Ranger FloatermNew ranger
-nnoremap <leader>ra :Ranger<cr>
+command! Rangerr FloatermNew ranger
+nnoremap <leader>ra :Rangerr<cr>
 
 " floaterm
 nnoremap <leader>t  :FloatermNew<cr>

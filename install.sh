@@ -11,10 +11,10 @@ mkdir -p ~/.backup
 [ -f ~/.p10k.zsh ] && cp ~/.p10k.zsh ~/.backup/
 
 echo "Installing"
-cp zshrc ~/.zshrc
-cp profile ~/.profile
-cp gitconfig ~/.gitconfig
-cp ideavimrc ~/.ideavimrc
-cp p10k.zsh ~/.p10k.zsh
+ln -s zshrc ~/.zshrc
+ln -s profile ~/.profile
+ln -s gitconfig ~/.gitconfig
+ln -s ideavimrc ~/.ideavimrc
+ln -s p10k.zsh ~/.p10k.zsh
 
 echo "Install Done!"

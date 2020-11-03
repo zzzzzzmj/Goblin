@@ -71,8 +71,8 @@ pbrew() { ALL_PROXY='socks5://127.0.0.1:7890' brew $@; }
 
 # lab
 alias lb='lab browser'
-alias lo='lab open'
-alias lc='lab clone'
+alias lo='lab open -p'
+alias lc='lab ci -l'
 
 # ranger
 alias ra='ranger'

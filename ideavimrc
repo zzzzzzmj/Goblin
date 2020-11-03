@@ -8,6 +8,8 @@ set clipboard+=unnamed
 
 set surround
 set commentary
+set multiple-cursors
+set ReplaceWithRegister
 nnoremap <c-y> viwy
 
 nmap go :action MoveEditorToOppositeTabGroup<CR>
