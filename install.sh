@@ -4,11 +4,11 @@ set -e
 
 echo "Backup config file > ~/.backup"
 mkdir -p ~/.backup
-[ -f ~/.zshrc ] && cp ~/.zshrc ~/.backup/
-[ -f ~/.profile ] && cp ~/.profile ~/.backup/
-[ -f ~/.gitconfig ] && cp ~/.gitconfig ~/.backup/
-[ -f ~/.ideavimrc ] && cp ~/.ideavimrc ~/.backup/
-[ -f ~/.p10k.zsh ] && cp ~/.p10k.zsh ~/.backup/
+[ -f ~/.zshrc ] && mv ~/.zshrc ~/.backup/
+[ -f ~/.profile ] && mv ~/.profile ~/.backup/
+[ -f ~/.gitconfig ] && mv ~/.gitconfig ~/.backup/
+[ -f ~/.ideavimrc ] && mv ~/.ideavimrc ~/.backup/
+[ -f ~/.p10k.zsh ] && mv ~/.p10k.zsh ~/.backup/
 
 echo "Installing"
 ln -s zshrc ~/.zshrc

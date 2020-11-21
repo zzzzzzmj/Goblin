@@ -67,8 +67,6 @@ z() {
     cd "$(_zlua -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
-pbrew() { ALL_PROXY='socks5://127.0.0.1:7890' brew $@; }
-
 # lab
 alias lb='lab browser'
 alias lo='lab open -p'

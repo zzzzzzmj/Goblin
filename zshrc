@@ -6,7 +6,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # zinit
-source ${HOME}/.zinit/bin/zinit.zsh
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
 
 # plugins
 zinit light skywind3000/z.lua
@@ -25,6 +37,9 @@ zinit ice lucid wait='1'
 zinit light paulirish/git-open
 
 zinit ice lucid wait='1'
+zinit light junegunn/fzf
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
 zinit light Aloxaf/fzf-tab
 
 # vi-mode
@@ -75,32 +90,16 @@ export GO111MODULE=on
 export GOPROXY='https://goproxy.cn,direct'
 
 # fzf
-[ -f ~/.fzf/shell/key-bindings.zsh ] && source ~/.fzf/shell/key-bindings.zsh
 bindkey '^T' fzf-file-widget
+bindkey '^R' fzf-history-widget
 export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles,__pycache__'} --hidden --follow"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --pointer='▶' --marker='✓' --preview-window=:70% "
 export FZF_PREVIEW_OPTS="--preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-
 export FZF_CTRL_T_OPTS="$FZF_PREVIEW_OPTS"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type f"
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # alias
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
