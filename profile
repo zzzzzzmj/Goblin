@@ -71,6 +71,7 @@ z() {
 alias lb='lab browser'
 alias lo='lab open -p'
 alias lc='lab ci -l'
+alias ws='cd $(find ~/zaihui -maxdepth 5 -type d -name ".git" | sed s/\.git$// | fzf)'
 
 # ranger
 alias ra='ranger'
