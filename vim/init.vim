@@ -8,7 +8,16 @@ endif
 set nocompatible
 set autoindent
 set backspace=2
-set cursorline
+
+" fix move slow
+set nocursorcolumn
+set nocursorline
+syntax sync minlines=256
+set synmaxcol=300
+set re=1
+" set ttyfast
+" set lazyredraw
+
 set encoding=utf-8
 set fileencoding=utf-8
 set hlsearch
@@ -62,7 +71,7 @@ nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 
 filetype off
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.config/nvim/plugins')
 
 Plug 'doums/darcula'
 Plug 'mhinz/vim-startify'
@@ -95,7 +104,6 @@ endif
 Plug 'francoiscabrol/ranger.vim'
 
 " programming
-" Plug 'yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
@@ -103,6 +111,7 @@ Plug 'honza/vim-snippets'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
+Plug 'sebdah/vim-delve'
 
 Plug 'wakatime/vim-wakatime'
 
@@ -230,27 +239,24 @@ vnoremap <leader>/ :Commentary<cr>
 
 " vim-go
 let g:go_list_type = "quickfix"
-let g:go_def_mode = 'gopls'
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_autosave = 0
 let g:go_doc_popup_window = 1
 let g:go_doc_keywordprg_enabled = 0
 
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_operators = 1
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_generate_tags = 1
 
 augroup go
   autocmd!
   " Show by default 4 spaces for a tab
   autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-  " :GoBuild and :GoTestCompile
-  autocmd FileType go nmap <leader><leader>b :<C-u>call <SID>build_go_files()<CR>
   " :GoFmt
   autocmd FileType go nnoremap gf :GoFmt<cr>
   " :GoTest
@@ -311,7 +317,8 @@ let g:coc_global_extensions = [
     \ "coc-translator",
     \ "coc-vimlsp",
     \ "coc-json",
-    \ "coc-yaml",]
+    \ "coc-yaml",
+    \ "coc-yank"]
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -392,14 +399,6 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <F9>  <Plug>(coc-format-selected)
 nmap <F9>  <Plug>(coc-format-selected)
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -436,6 +435,9 @@ function! s:cocActionsOpenFromSelected(type) abort
 endfunction
 xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
 nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
+" coc-yank
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 " ranger.vim
 let g:ranger_map_keys = 0
