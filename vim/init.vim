@@ -88,6 +88,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " edit
+Plug 'ybian/smartim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-repeat'
@@ -128,6 +129,26 @@ Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 filetype plugin indent on
+
+" Startify
+let g:startify_enable_special = 0
+let g:startify_session_autoload = 1
+let g:startify_session_delete_buffers = 1
+let g:startify_session_dir = '~/.config/nvim/session'
+let g:startify_lists = [
+            \ { 'type': 'files',     'header': ['   Files'] },
+            \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+            \ { 'type': 'sessions',  'header': ['   Sessions'] },
+            \ { 'type': 'bookmarks', 'header': ['   Bookmarks'] },
+            \]
+
+let g:startify_bookmarks = [
+            \ '~/self',
+            \ '~/self/lab',
+            \ '~/zaihui',
+            \ '~/zaihui/iris',
+            \ '~/zaihui/violet',
+            \ ]
 
 " fzf
 let g:fzf_preview_window = 'right:70%'
@@ -401,6 +422,8 @@ endfunction
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>rf <Plug>(coc-refactor)
+nmap gx <Plug>(coc-openlink)
 
 " Remap for format selected region
 xmap <F9>  <Plug>(coc-format-selected)
@@ -455,7 +478,7 @@ command! Rangerr FloatermNew ranger
 nnoremap <leader>ra :Rangerr<cr>
 
 " floaterm
-nnoremap <leader>t  :FloatermNew<cr>
+noremap <leader>t :FloatermNew --wintype=normal --position=bottom --height=20<cr>
 tnoremap <m-]> <c-\><c-n>:FloatermNext<cr>
 tnoremap <m-[> <c-\><c-n>:FloatermPrev<cr>
 
@@ -471,3 +494,5 @@ let g:floaterm_height=0.6
 " splitjoin
 nmap sj :SplitjoinSplit<cr>
 nmap sk :SplitjoinJoin<cr>
+
+
