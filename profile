@@ -2,23 +2,16 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ipy='ipython'
 alias sb='source env/bin/activate'
-alias de='deactivate'
 alias pm='python manage.py'
 alias pr='pipenv run'
-alias pf="pipenv run fab"
 alias ppm='pipenv run python manage.py'
-alias pshell='pipenv shell'
+alias psh='pipenv shell'
 alias ppmm='ppm makemigrations'
 
 alias gpath="cd $GOPATH/src/"
 
-alias sssh='ssh -t agate ssh -t'
 alias vim-install='vim +PlugInstall +qall'
 alias cgd='hexo clean && hexo g && hexo d'
-
-
-# other
-alias leet='leet(){ mkdir -p $1 && cd $1 && touch solution.py solution.go solution_test.go README.md;};leet'
 
 # git
 alias dbr='del(){ git br | grep $1 | xargs git br -D;};del'
@@ -36,7 +29,6 @@ alias dr='docker run -it'
 alias db='docker build'
 alias dc="docker-compose"
 alias dps="docker ps"
-
 alias drm='docker rm $(docker ps -a -q)'
 rmi() { docker rmi `docker images | grep $1 | awk '{print $3}'`; }
 
@@ -70,8 +62,9 @@ z() {
 # lab
 alias lb='lab browser'
 alias lo='lab open -p'
-alias lc='lab ci -l'
-alias ws='cd $(find ~/zaihui -maxdepth 5 -type d -name ".git" | sed s/\.git$// | fzf)'
+alias lc='lab clone'
+alias ws='cd `lab ws`'
 
-# ranger
+# tools
 alias ra='ranger'
+alias lg='lazygit
