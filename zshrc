@@ -23,7 +23,7 @@ autoload -Uz _zinit
 # plugins
 zinit light skywind3000/z.lua
 
-zinit ice lucid wait='1' atinit='zpcompinit'
+zinit ice lucid wait='1'
 zinit light zdharma/fast-syntax-highlighting
 
 zinit ice lucid wait='1' atload='_zsh_autosuggest_start'
@@ -43,10 +43,11 @@ zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zs
 zinit light Aloxaf/fzf-tab
 
 # vi-mode
-zinit ice lucid wait='1'
-zinit light b4b4r07/zsh-vimode-visual
 set -o vi
 zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected text
+zinit ice lucid wait='1'
+zinit light b4b4r07/zsh-vimode-visual
+zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
 
 # oh-my-zsh plugins
 zinit snippet OMZ::lib/completion.zsh
@@ -55,9 +56,6 @@ zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::lib/grep.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
-
-zinit ice lucid wait='1'
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 
 # p10k theme
@@ -103,3 +101,4 @@ export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -120,6 +120,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 Plug 'sebdah/vim-delve'
+Plug 'vim-test/vim-test'
 
 Plug 'wakatime/vim-wakatime'
 
@@ -151,8 +152,8 @@ let g:startify_bookmarks = [
             \ ]
 
 " fzf
-let g:fzf_preview_window = 'right:70%'
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6} }
+let g:fzf_preview_window = [ 'down:60%', 'ctrl-/' ]
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7} }
 
 nnoremap <silent> <leader>fr :Rg<cr>
 xnoremap <silent> <leader>fr y:Rg <c-r>"<cr>
@@ -166,7 +167,7 @@ function! RipgrepFzf(query, fullscreen)
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec, 'down:60%', 'ctrl-/'), a:fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
@@ -189,8 +190,10 @@ command! -nargs=* -bang BD call fzf#run(fzf#wrap({
 
 
 "coc-fzf
-let g:coc_fzf_preview='right:70%'
+let g:coc_fzf_preview='down:60%'
+let g:coc_fzf_preview_toggle_key = "ctrl-/"
 let g:coc_fzf_opts=['--layout=reverse']
+
 nnoremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
 
 " fzf-preview
@@ -272,14 +275,6 @@ let g:go_fmt_fail_silently = 0
 let g:go_fmt_autosave = 0
 let g:go_doc_popup_window = 1
 let g:go_doc_keywordprg_enabled = 0
-
-" let g:go_highlight_types = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_extra_types = 1
-" let g:go_highlight_generate_tags = 1
 
 augroup go
   autocmd!
@@ -454,7 +449,6 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
 " coc-translator
-" popup
 nmap <m-t> <Plug>(coc-translator-p)
 vmap <m-t> <Plug>(coc-translator-pv)
 
@@ -495,4 +489,12 @@ let g:floaterm_height=0.6
 nmap sj :SplitjoinSplit<cr>
 nmap sk :SplitjoinJoin<cr>
 
+" vim-test
+nmap <silent> tn :TestNearest --verbose<CR>
+nmap <silent> tf :TestFile<CR>
+nmap <silent> ts :TestSuite<CR>
+nmap <silent> tl :TestLast<CR>
+nmap <silent> tg :TestVisit<CR>
 
+let test#strategy = "floaterm"
+let test#python#runner = 'pytest'
