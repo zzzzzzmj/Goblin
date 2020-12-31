@@ -80,10 +80,11 @@ nnoremap <c-l> <c-w><c-l>
 filetype off
 call plug#begin('~/.config/nvim/plugins')
 
-Plug 'doums/darcula'
+" Plug 'doums/darcula'
+" Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'rbong/vim-crystalline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -203,15 +204,22 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-colorscheme darcula
+" let g:hybrid_transparent_background = 1
+" colorscheme hybrid_reverse
+colorscheme hybrid
+" colorscheme darcula
 " fix darcula gui  cursor
 " highlight Cursor guibg=#7F70F0 guifg=#5F5A60
 " fix darcula nvim cursor
-highlight CursorLine guifg=none
+" highlight CursorLine guifg=none
 set termguicolors
 set background=dark
+hi SignColumn guifg=fg guibg=bg
 
 " Gitgutter
+hi GitAddStripe ctermfg=66 ctermbg=66 guifg='#384C38' guibg='#384C38'
+hi GitChangeStripe ctermfg=60 ctermbg=60 guifg='#374752' guibg='#374752'
+hi GitDeleteStripe ctermfg=0 ctermbg=0
 hi! link GitGutterAdd GitAddStripe
 hi! link GitGutterChange GitChangeStripe
 hi! link GitGutterDelete GitDeleteStripe
@@ -415,6 +423,9 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>rf <Plug>(coc-refactor)
@@ -439,6 +450,16 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
@@ -452,14 +473,6 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 nmap <m-t> <Plug>(coc-translator-p)
 vmap <m-t> <Plug>(coc-translator-pv)
 
-" coc-actions
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-
 " coc-yank
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
@@ -472,9 +485,12 @@ command! Rangerr FloatermNew ranger
 nnoremap <leader>ra :Rangerr<cr>
 
 " floaterm
-noremap <leader>t :FloatermNew --wintype=normal --position=bottom --height=20<cr>
+noremap <leader>ft :FloatermNew --wintype=normal --position=bottom --height=20<cr>
+noremap <leader>fp :FloatermNew --wintype=normal --position=right --width=0.5 --name=ipy ipython<cr>
+vnoremap <leader>fs :FloatermSend<cr>
 tnoremap <m-]> <c-\><c-n>:FloatermNext<cr>
 tnoremap <m-[> <c-\><c-n>:FloatermPrev<cr>
+tnoremap <c-w><c-w> <c-\><c-n><c-w>w
 
 command! Lazygit FloatermNew lazygit
 nnoremap <leader>lg :Lazygit<cr>
@@ -498,3 +514,5 @@ nmap <silent> tg :TestVisit<CR>
 
 let test#strategy = "floaterm"
 let test#python#runner = 'pytest'
+
+let g:smartim_default = "com.apple.keylayout.ABC"
