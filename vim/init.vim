@@ -22,7 +22,6 @@ set nocursorline
 syntax sync minlines=256
 set synmaxcol=300
 set re=1
-" set ttyfast
 " set lazyredraw
 
 set encoding=utf-8
@@ -46,6 +45,9 @@ set noswapfile  " 不需要.swp文件
 set foldenable
 set foldmethod=indent
 set foldlevel=99
+
+" filetype
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 
 inoremap jk <Esc>
@@ -80,8 +82,6 @@ nnoremap <c-l> <c-w><c-l>
 filetype off
 call plug#begin('~/.config/nvim/plugins')
 
-" Plug 'doums/darcula'
-" Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'w0ng/vim-hybrid'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
@@ -89,7 +89,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " edit
-Plug 'ybian/smartim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-repeat'
@@ -117,7 +116,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf'
 Plug 'sebdah/vim-delve'
@@ -126,7 +124,7 @@ Plug 'vim-test/vim-test'
 Plug 'wakatime/vim-wakatime'
 
 " startuptime
-" Plug 'tweekmonster/startuptime.vim'
+Plug 'tweekmonster/startuptime.vim'
 " Plug 'dstein64/vim-startuptime'
 
 call plug#end()
@@ -195,7 +193,7 @@ let g:coc_fzf_preview='down:60%'
 let g:coc_fzf_preview_toggle_key = "ctrl-/"
 let g:coc_fzf_opts=['--layout=reverse']
 
-nnoremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
+noremap <silent> <m-c> :<C-u>CocFzfList commands<CR>
 
 " fzf-preview
 let g:fzf_preview_floating_window_rate = 0.7
@@ -204,17 +202,12 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-" let g:hybrid_transparent_background = 1
-" colorscheme hybrid_reverse
 colorscheme hybrid
-" colorscheme darcula
-" fix darcula gui  cursor
-" highlight Cursor guibg=#7F70F0 guifg=#5F5A60
-" fix darcula nvim cursor
-" highlight CursorLine guifg=none
 set termguicolors
 set background=dark
 hi SignColumn guifg=fg guibg=bg
+hi CursorColumn guibg='#384C38'
+hi Normal guibg=None ctermbg=None
 
 " Gitgutter
 hi GitAddStripe ctermfg=66 ctermbg=66 guifg='#384C38' guibg='#384C38'
@@ -227,6 +220,7 @@ let g:gitgutter_sign_removed = '▶'
 let g:gitgutter_preview_win_floating = 1
 
 " NerdTree
+hi! link NERDTreeFlags NERDTreeDir
 let g:NERDTreeIgnore=['\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '.git$', '.idea', '.vscode', '\.swp']
 let NERDTreeChDirMode=3
 let NERDTreeShowBookmarks=1
@@ -276,35 +270,6 @@ let g:airline_extensions=["tabline", "coc", "branch"]
 nnoremap <leader>/ :Commentary<cr>
 vnoremap <leader>/ :Commentary<cr>
 
-" vim-go
-let g:go_list_type = "quickfix"
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 0
-let g:go_fmt_autosave = 0
-let g:go_doc_popup_window = 1
-let g:go_doc_keywordprg_enabled = 0
-
-augroup go
-  autocmd!
-  " Show by default 4 spaces for a tab
-  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-  " :GoFmt
-  autocmd FileType go nnoremap gf :GoFmt<cr>
-  " :GoTest
-  autocmd FileType go nmap <leader>gt  <Plug>(go-test)
-  " :GoRun
-  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
-augroup END
-
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-
 " GUI config
 if has('gui_running')
     source $VIMRUNTIME/delmenu.vim
@@ -320,9 +285,6 @@ if has('gui_running')
     if has("win32")
         " https://github.com/tonsky/FiraCode/issues/462
         set guifont=Fira\ Code:h12
-        set renderoptions=type:directx
-        " https://www.vim.org/scripts/script.php?script_id=687
-        au GUIEnter * call libcallnr("vimtweak.dll", "SetAlpha", 245)
         set lines=38
         set columns=150
     else
@@ -337,24 +299,27 @@ endif
 " coc.nvim
 " ===================
 let g:coc_global_extensions = [
-    \ "coc-marketplace",
-    \ "coc-actions",
-    \ "coc-diagnostic",
-    \ "coc-floaterm",
-    \ "coc-lists",
-    \ "coc-python",
-    \ "coc-explorer",
-    \ "coc-snippets",
-    \ "coc-translator",
+    \ "coc-pyright",
+    \ "coc-tsserver",
     \ "coc-vimlsp",
     \ "coc-json",
     \ "coc-yaml",
+    \ "coc-go",
+    \ "coc-marketplace",
+    \ "coc-diagnostic",
+    \ "coc-floaterm",
+    \ "coc-lists",
+    \ "coc-explorer",
+    \ "coc-snippets",
+    \ "coc-highlight",
+    \ "coc-translator",
     \ "coc-yank"]
 
 " if hidden is not set, TextEdit might fail.
 set hidden
 
 " Some servers have issues with backup files, see #649
+
 set nobackup
 set nowritebackup
 
@@ -367,14 +332,8 @@ set updatetime=100
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" " Always show the signcolumn, otherwise it would shift the text each time
-" " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+" Always show the signcolumn, otherwise it would shift the text each time
+set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -394,17 +353,14 @@ let g:coc_snippet_next = '<tab>'
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `alt-j` and `alt-k` to navigate diagnostics
-nmap <silent> <m-j> <Plug>(coc-diagnostic-prev)
-nmap <silent> <m-k> <Plug>(coc-diagnostic-next)
+nmap <silent> <m-j> <Plug>(coc-diagnostic-next)
+nmap <silent> <m-k> <Plug>(coc-diagnostic-prev)
 
 " Remap keys for gotos
 nmap gd <Plug>(coc-definition)
@@ -418,8 +374,10 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
@@ -431,43 +389,39 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>rf <Plug>(coc-refactor)
 nmap gx <Plug>(coc-openlink)
 
-" Remap for format selected region
-xmap <F9>  <Plug>(coc-format-selected)
-nmap <F9>  <Plug>(coc-format-selected)
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-" nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
 omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :silent call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufWritePre *.go :OR
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " coc-translator
 nmap <m-t> <Plug>(coc-translator-p)
@@ -514,5 +468,4 @@ nmap <silent> tg :TestVisit<CR>
 
 let test#strategy = "floaterm"
 let test#python#runner = 'pytest'
-
-let g:smartim_default = "com.apple.keylayout.ABC"
+let test#go#runner = "gotest"
