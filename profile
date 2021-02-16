@@ -66,7 +66,7 @@ alias lb='lab browser'
 alias lo='lab open -p'
 alias lc='lab clone'
 alias lcl='lab ci -l'
-alias ws='cd `lab ws -d 5`'
+alias ws='cd `lab cs -d 5`'
 
 # tools
 alias ra='ranger'
