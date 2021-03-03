@@ -46,14 +46,12 @@ set foldenable
 set foldmethod=indent
 set foldlevel=99
 
-" filetype
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-
 inoremap jk <Esc>
 nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
-nnoremap <leader>y viwy
+nnoremap <c-y> viwy
+
+" nnoremap <c-l> :nohls<cr><c-l>
 
 " register
 vnoremap p "_dP
@@ -83,10 +81,15 @@ filetype off
 call plug#begin('~/.config/nvim/plugins')
 
 Plug 'w0ng/vim-hybrid'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " edit
 Plug 'tpope/vim-surround'
@@ -105,7 +108,6 @@ Plug 'mg979/vim-visual-multi'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
-Plug 'voldikss/vim-floaterm'
 if has("nvim")
     Plug 'rbgrouleff/bclose.vim'
 endif
@@ -117,14 +119,19 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'antoinemadec/coc-fzf'
-Plug 'sebdah/vim-delve'
 Plug 'vim-test/vim-test'
+
+" terminal
+Plug 'voldikss/vim-floaterm'
+" Plug 'skywind3000/asyncrun.vim'
+" Plug 'skywind3000/asyncrun.extra'
 
 Plug 'wakatime/vim-wakatime'
 
 " startuptime
-Plug 'tweekmonster/startuptime.vim'
+" Plug 'tweekmonster/startuptime.vim'
 " Plug 'dstein64/vim-startuptime'
 
 call plug#end()
@@ -147,6 +154,7 @@ let g:startify_bookmarks = [
             \ '~/self/lab',
             \ '~/zaihui',
             \ '~/zaihui/iris',
+            \ '~/zaihui/server',
             \ '~/zaihui/violet',
             \ ]
 
@@ -207,7 +215,7 @@ set termguicolors
 set background=dark
 hi SignColumn guifg=fg guibg=bg
 hi CursorColumn guibg='#384C38'
-hi Normal guibg=None ctermbg=None
+" hi Normal guibg=None ctermbg=None
 
 " Gitgutter
 hi GitAddStripe ctermfg=66 ctermbg=66 guifg='#384C38' guibg='#384C38'
@@ -300,11 +308,11 @@ endif
 " ===================
 let g:coc_global_extensions = [
     \ "coc-pyright",
+    \ "coc-go",
     \ "coc-tsserver",
     \ "coc-vimlsp",
     \ "coc-json",
     \ "coc-yaml",
-    \ "coc-go",
     \ "coc-marketplace",
     \ "coc-diagnostic",
     \ "coc-floaterm",
@@ -419,16 +427,19 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>ca  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>cf  <Plug>(coc-fix-current)
 
 " coc-translator
 nmap <m-t> <Plug>(coc-translator-p)
 vmap <m-t> <Plug>(coc-translator-pv)
 
 " coc-yank
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+
+" coc-explorer
+nnoremap <leader>o :CocCommand explorer<cr>
 
 " ranger.vim
 let g:ranger_map_keys = 0
@@ -460,7 +471,7 @@ nmap sj :SplitjoinSplit<cr>
 nmap sk :SplitjoinJoin<cr>
 
 " vim-test
-nmap <silent> tn :TestNearest --verbose<CR>
+nmap <silent> tn :TestNearest<CR>
 nmap <silent> tf :TestFile<CR>
 nmap <silent> ts :TestSuite<CR>
 nmap <silent> tl :TestLast<CR>
@@ -469,3 +480,31 @@ nmap <silent> tg :TestVisit<CR>
 let test#strategy = "floaterm"
 let test#python#runner = 'pytest'
 let test#go#runner = "gotest"
+
+
+" vim-go
+let g:go_list_type = "quickfix"
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 0
+let g:go_fmt_autosave = 1
+let g:go_doc_popup_window = 1
+let g:go_doc_keywordprg_enabled = 0
+
+augroup go
+  autocmd!
+  " Show by default 4 spaces for a tab
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  " :GoFmt
+  autocmd FileType go nnoremap gf :GoFmt<cr>
+  " :GoRun
+  autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+augroup END
+
+function! s:build_go_files()
+ let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction

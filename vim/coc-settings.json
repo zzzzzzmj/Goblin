@@ -1,12 +1,12 @@
 {
-    "python.venvPath": "~/.pyenv/",
-    "python.venvFolders": [
-        ".pyenv",
-        "venv"
-    ],
-    "python.analysis.stubPath": "~/.typings",
     "python.analysis.useLibraryCodeForTypes": true,
-    "python.analysis.typeCheckingMode":"off",
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.extraPaths": ["ygg"],
+    "go.disable": {
+        "completion": true,
+        "diagnostics": true
+    },
+
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": ["--line-length=120"],
     "python.linting.flake8Enabled": true,
