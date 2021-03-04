@@ -51,7 +51,7 @@ nnoremap <leader>ev  :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv  :source $MYVIMRC<cr>
 nnoremap <c-y> viwy
 
-" nnoremap <c-l> :nohls<cr><c-l>
+noremap <leader>ll :nohl<cr>
 
 " register
 vnoremap p "_dP
@@ -483,6 +483,7 @@ let test#go#runner = "gotest"
 
 
 " vim-go
+let g:go_gpls_enabled=0
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 0
