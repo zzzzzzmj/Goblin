@@ -112,6 +112,7 @@ if has("nvim")
     Plug 'rbgrouleff/bclose.vim'
 endif
 Plug 'francoiscabrol/ranger.vim'
+Plug 'romainl/vim-cool'
 
 " programming
 Plug 'airblade/vim-gitgutter'
@@ -410,10 +411,11 @@ omap ac <Plug>(coc-classobj-a)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
+autocmd BufWritePre *.py :Format
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :silent call CocAction('runCommand', 'editor.action.organizeImport')
-autocmd BufWritePre *.go :OR
+" autocmd BufWritePre *.go :OR
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?

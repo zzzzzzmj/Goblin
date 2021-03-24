@@ -50,6 +50,7 @@
     autocrlf = false
     ignorecase = false
     quotepath = false
+    excludesfile = ~/.gitignore
 [color]
     ui = true
 [merge]
@@ -63,7 +64,3 @@
     user = Ackerr
 [includeIf "gitdir:~/zaihui/"]
     path = ~/.gitconfig-zaihui
-[http]
-    proxy = socks5://127.0.0.1:7890
-[https]
-    proxy = socks5://127.0.0.1:7890

@@ -19,7 +19,6 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
-typeset -g ZPLG_MOD_DEBUG=1
 
 # plugins
 zinit light skywind3000/z.lua
@@ -73,20 +72,18 @@ export EDITOR='nvim'
 
 # python
 if command -v pyenv 1>/dev/null 2>&1; then
- eval "$(pyenv init -)"
+  eval "$(pyenv init -)"
 fi
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"
 fi
 
-export SHELL='/bin/zsh'
 export PATH="$HOME/.pyenv/bin:$PATH"
 
 # go
-[ -f ~/go-base ] && mkdir -p ~/go-base
 export GOPATH="$HOME/go-base"
-export PATH="$GOPATH:$GOPATH/bin:$PATH"
+export PATH="${GOPATH}:${GOPATH}/bin:${PATH}"
 export GO111MODULE=on
 export GOPROXY='https://goproxy.cn,direct'
 
@@ -105,3 +102,4 @@ export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
