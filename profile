@@ -17,10 +17,6 @@ alias sssh='ssh -t agate ssh -t'
 alias vim-install='vim +PlugInstall +qall'
 alias cgd='hexo clean && hexo g && hexo d'
 
-
-# other
-alias leet='leet(){ mkdir -p $1 && cd $1 && touch solution.py solution.go solution_test.go README.md;};leet'
-
 # git
 alias dbr='del(){ git br | grep $1 | xargs git br -D;};del'
 alias rb-dev='rb-dev(){ git f z && git rebase z/dev;};rb-dev'
@@ -39,7 +35,7 @@ alias dc="docker-compose"
 alias dps="docker ps"
 
 alias drm='docker rm $(docker ps -a -q)'
-rmi() { docker rmi `docker images | grep $1 | awk '{print $3}'`; }
+drmi() { docker rmi `docker images | grep $1 | awk -F  ' ' '{print $3}'`; }
 
 # k8s
 alias k='kubectl'
@@ -54,7 +50,7 @@ alias kgp='kubectl get pod'
 alias kex='kubectl exec -it'
 alias kcg='kubectl config get-contexts'
 alias kcu='kubectl config get-contexts -o name| fzf --preview "kubectl config use-context {} && kubectl get ns"'
-alias kns='kubectl get ns -o name | sed "s/namespace\///" | fzf --preview "kubectl get all -n {}"'
+alias kns='kubectl get ns -o name | sed "s/namespace\///" | fzf | xargs -I ns kubectl config set-context --current --namespace=ns'
 kpm() { kex `kpo $1` pipenv run python manage.py shell; }
 kpo() { kg po | grep $1 | head -n1 | cut -d" " -f1; }
 ksh() { kex `kpo $1` -- bash; }
