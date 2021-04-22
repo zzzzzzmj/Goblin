@@ -113,6 +113,7 @@ if has("nvim")
 endif
 Plug 'francoiscabrol/ranger.vim'
 Plug 'romainl/vim-cool'
+Plug 'psliwka/vim-smoothie'
 
 " programming
 Plug 'airblade/vim-gitgutter'
@@ -168,7 +169,7 @@ xnoremap <silent> <leader>fr y:Rg <c-r>"<cr>
 nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fgf :GFiles?<cr>
-nnoremap <silent> <leader>fgb :Gblame --date=short<cr>
+nnoremap <silent> <leader>fgb :Git blame --date=short<cr>
 
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
@@ -309,6 +310,7 @@ endif
 " ===================
 let g:coc_global_extensions = [
     \ "coc-pyright",
+    \ "coc-clangd",
     \ "coc-go",
     \ "coc-tsserver",
     \ "coc-vimlsp",
