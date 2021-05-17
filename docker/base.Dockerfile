@@ -5,7 +5,8 @@ WORKDIR /tmp
 # Install Tool
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
-    apt-get -y install make git net-tools wget curl zsh gcc
+    DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata && \
+    apt-get -y install make git net-tools wget curl zsh gcc htop
 
 # Install neovim-nightly
 RUN wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage &&\
@@ -22,4 +23,4 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 # Install Golang
 RUN wget https://golang.org/dl/go1.16.4.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.16.4.linux-amd64.tar.gz && \
-    export PATH=$PATH:/usr/local/go/bin
+    cp /usr/local/go/bin/* /usr/local/bin/

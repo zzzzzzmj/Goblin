@@ -81,7 +81,6 @@ filetype off
 call plug#begin('~/.config/nvim/plugins')
 
 Plug 'w0ng/vim-hybrid'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
@@ -125,8 +124,6 @@ Plug 'vim-test/vim-test'
 Plug 'voldikss/vim-floaterm'
 " Plug 'skywind3000/asyncrun.vim'
 " Plug 'skywind3000/asyncrun.extra'
-
-Plug 'wakatime/vim-wakatime'
 
 " startuptime
 " Plug 'tweekmonster/startuptime.vim'

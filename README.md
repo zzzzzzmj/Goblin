@@ -1,5 +1,6 @@
 # (..•˘_˘•..)
 ![](https://github.com/Ackerr/dotfiles/workflows/CI/badge.svg)
+![](https://github.com/Ackerr/dotfiles/workflows/Build/badge.svg)
 
 ## Install
 

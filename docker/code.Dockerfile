@@ -10,6 +10,6 @@ RUN mkdir -p $HOME/.config/nvim && mv ./dotfiles/vim/* $HOME/.config/nvim/ && \
     mv ./dotfiles/profile $HOME/.profile && \
     mv ./dotfiles/p10k.zsh $HOME/.p10k.zsh && \
     mv ./dotfiles/zshrc $HOME/.zshrc && \
-    nvim +PlugInstall +qall && \
+    # nvim +PlugInstall +qall && \
     pip install pynvim && \
     npm install -g neovim
