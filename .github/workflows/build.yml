@@ -27,11 +27,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push
-        id: docker_build
+      - name: Base Image
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ackerr/devenv:latest
+          tags: ackerr/devenv:base
           context: .
           file: ./docker/base.Dockerfile
+
+      - name: Code Image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ackerr/ackerr:latest
+          context: .
+          file: ./docker/code.Dockerfile
