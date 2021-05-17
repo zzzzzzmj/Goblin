@@ -205,7 +205,7 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-colorscheme hybrid
+silent! colorscheme hybrid
 set termguicolors
 set background=dark
 hi SignColumn guifg=fg guibg=bg
