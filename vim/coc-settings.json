@@ -13,7 +13,6 @@
     "python.linting.flake8Args": ["--max-line-length=120"],
     "coc.preferences.extensionUpdateCheck": "daily",
     "coc.preferences.formatOnSaveFiletypes": ["go", "python"],
-    "coc.preferences.hoverTarget": "float",
     "diagnostic.enable": true,
     "diagnostic.displayByAle": false,
     "diagnostic.level": "information",
@@ -25,7 +24,6 @@
     "diagnostic.refreshOnInsertMode": false,
     "codeLens.enable": true,
 
-    "cSpell.enabled": false,
     "highlight.document.enable": false,
     "highlight.colorNames.enable": false
 }

@@ -40,7 +40,6 @@ zinit ice lucid wait='1'
 zinit light junegunn/fzf
 zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
 zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
-zinit light Aloxaf/fzf-tab
 
 # vi-mode
 set -o vi
