@@ -1,7 +1,5 @@
 FROM library/ubuntu:20.04
 
-WORKDIR /tmp
-
 # Fix something
 RUN apt-get update && apt-get -y upgrade && \
     echo "Asia/Shanghai" > /etc/timezone && \
@@ -12,7 +10,7 @@ RUN apt-get update && apt-get -y upgrade && \
 RUN apt-get install -y zsh && chsh -s /bin/zsh && \
     apt-get install -y fd-find && \
     ln -s $(which fdfind) /usr/local/bin/fd && \
-    apt-get install -y make git net-tools wget curl gcc htop ripgrep lua5.2
+    apt-get install -y make git net-tools wget curl gcc htop ripgrep lua5.2 ranger
 
 # Install neovim-nightly
 RUN wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage &&\
