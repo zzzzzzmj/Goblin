@@ -1,11 +1,15 @@
 FROM ackerr/devenv:base
 
-WORKDIR /ackerr
+ENV HOME /root
+ENV GOPATH $HOME/go-base
+
+WORKDIR $HOME
 
 COPY . ./dotfiles
 
 # User Setting
-RUN mkdir -p $HOME/.config/nvim && mv ./dotfiles/vim/* $HOME/.config/nvim/ && \
+RUN mkdir -p $HOME/.config/nvim && \
+    mv ./dotfiles/vim/* $HOME/.config/nvim/ && \
     mv ./dotfiles/gitconfig $HOME/.gitconfig && \
     mv ./dotfiles/editorconfig $HOME/.editorconfig && \
     mv ./dotfiles/profile $HOME/.profile && \
@@ -14,12 +18,12 @@ RUN mkdir -p $HOME/.config/nvim && mv ./dotfiles/vim/* $HOME/.config/nvim/ && \
 
 # Init zsh
 # https://github.com/zdharma/zinit/issues/484
+# https://github.com/romkatv/powerlevel10k/issues/949
 SHELL ["/bin/zsh", "-c"]
 
-ARG TERM
-ENV TERM=${TERM:-screen-256color} 
-ENV POWERLEVEL9K_DISABLE_GITSTATUS=true
+ENV TERM=${TERM:-xterm-256color} 
 RUN zsh -isc "@zinit-scheduler burst"
+RUN script -qec "zsh -is </dev/null" /dev/null 
 
 # Init vim
 RUN pip install pynvim && \
