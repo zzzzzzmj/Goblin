@@ -1,4 +1,4 @@
-FROM ackerr/devenv:base
+FROM ackerr/ackerr:base
 
 ENV HOME /root
 ENV GOPATH $HOME/go-base
@@ -8,7 +8,8 @@ WORKDIR $HOME
 COPY . ./dotfiles
 
 # User Setting
-RUN mkdir -p $HOME/.config/nvim && \
+RUN mkdir -p $HOME/.config/nvim $HOME/.config/coc/extensions && \
+    mv ./dotfiles/vim/coc-extensions.json $HOME/.config/coc/extensions/package.json && \
     mv ./dotfiles/vim/* $HOME/.config/nvim/ && \
     mv ./dotfiles/gitconfig $HOME/.gitconfig && \
     mv ./dotfiles/editorconfig $HOME/.editorconfig && \
@@ -27,7 +28,8 @@ RUN script -qec "zsh -is </dev/null" /dev/null
 
 # Init vim
 RUN pip install pynvim && \
-    npm install -g neovim && \
-    nvim -E +PlugInstall +qall
+    npm install -g neovim yarn && \
+    nvim -E +PlugInstall +qall && \
+    cd $HOME/.config/coc/extensions/ && yarn install
 
 ENTRYPOINT ["/bin/zsh"]
