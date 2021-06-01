@@ -2,8 +2,9 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+# eval "$(starship init zsh)"
 
 # zinit
 ### Added by Zinit's installer
@@ -36,10 +37,16 @@ zinit light zsh-users/zsh-completions
 zinit ice lucid wait='1'
 zinit light paulirish/git-open
 
-zinit ice lucid wait='1'
+zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf
-zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
-zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
+
+zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
+zinit light junegunn/fzf
+
+zinit light Aloxaf/fzf-tab
+
+zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
 
 # vi-mode
 set -o vi
