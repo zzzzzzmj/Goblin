@@ -4,7 +4,6 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-# eval "$(starship init zsh)"
 
 # zinit
 ### Added by Zinit's installer
@@ -40,8 +39,8 @@ zinit light paulirish/git-open
 zinit ice lucid wait'0b' from"gh-r" as"program"
 zinit light junegunn/fzf
 
-zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as"junegunn/fzf_completions" pick"/dev/null"
-zinit light junegunn/fzf
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
 
 zinit light Aloxaf/fzf-tab
 
@@ -97,7 +96,7 @@ export GOPROXY='https://goproxy.cn,direct'
 bindkey '^T' fzf-file-widget
 bindkey '^R' fzf-history-widget
 export FZF_DEFAULT_COMMAND="fd --exclude={'env,.git,.vscode,.idea,node_moudles,__pycache__'} --hidden --follow"
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --pointer='▶' --marker='✓' --preview-window=:70% "
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --pointer='▶' --marker='✓' --preview-window=:70% --bind 'ctrl-f:page-down,ctrl-b:page-up'"
 export FZF_PREVIEW_OPTS="--preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 export FZF_CTRL_T_OPTS="$FZF_PREVIEW_OPTS"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type f"
