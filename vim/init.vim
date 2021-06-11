@@ -80,7 +80,8 @@ nnoremap <c-l> <c-w><c-l>
 filetype off
 call plug#begin('~/.config/nvim/plugins')
 
-Plug 'w0ng/vim-hybrid'
+" Plug 'w0ng/vim-hybrid'
+Plug 'rakr/vim-one'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
@@ -115,6 +116,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'honza/vim-snippets'
+Plug 'andrewstuart/vim-kubernetes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'antoinemadec/coc-fzf'
@@ -205,9 +207,10 @@ let g:fzf_preview_defalut_fzf_options = { '--preview-window': ':70%' }
 
 " colorscheme
 set t_Co=256
-silent! colorscheme hybrid
-set termguicolors
 set background=dark
+let g:one_allow_italics = 1
+silent! colorscheme one
+set termguicolors
 hi SignColumn guifg=fg guibg=bg
 hi CursorColumn guibg='#384C38'
 " hi Normal guibg=None ctermbg=None
@@ -386,7 +389,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent! call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
