@@ -5,6 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [[ ! -d $HOME/.tmux/plugins/tpm/ ]]; then
+    command mkdir -p "$HEOM/.tmux/plugins"
+    command git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+fi
+
 # zinit
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -19,6 +24,8 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
+
+ZSH_TMUX_AUTOCONNECT=true
 
 # plugins
 zinit light skywind3000/z.lua
@@ -46,6 +53,18 @@ zinit light Aloxaf/fzf-tab
 
 zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
+
+zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+zinit light BurntSushi/ripgrep
+
+zinit ice lucid wait"1" as"program" from"gh-r" mv"lazygit* -> lazygit"
+zinit light 'jesseduffield/lazygit'
+
+zinit ice lucid wait"1" as"program" from"gh-r" mv"lazydocker* -> lazydocker"
+zinit light 'jesseduffield/lazydocker'
+
+zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+zinit light sharkdp/fd
 
 # vi-mode
 set -o vi
@@ -107,4 +126,3 @@ export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
