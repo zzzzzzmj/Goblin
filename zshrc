@@ -1,3 +1,9 @@
+# auto load tmux
+# https://github.com/romkatv/powerlevel10k/issues/1203
+if [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s codespace
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -25,9 +31,8 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
-ZSH_TMUX_AUTOCONNECT=true
-
 # plugins
+zinit ice lucid wait='1'
 zinit light skywind3000/z.lua
 
 zinit ice lucid wait='1'
@@ -49,24 +54,25 @@ zinit light junegunn/fzf
 zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
 zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
 
+zinit ice lucid wait='1'
 zinit light Aloxaf/fzf-tab
 
-zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit ice lucid wait='1' as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
 
-zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+zinit ice lucid wait='1' from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
 zinit light BurntSushi/ripgrep
 
-zinit ice lucid wait"1" as"program" from"gh-r" mv"lazygit* -> lazygit"
+zinit ice lucid wait='1' as"program" from"gh-r" mv"lazygit* -> lazygit"
 zinit light 'jesseduffield/lazygit'
 
-zinit ice lucid wait"1" as"program" from"gh-r" mv"lazydocker* -> lazydocker"
+zinit ice lucid wait='1' as"program" from"gh-r" mv"lazydocker* -> lazydocker"
 zinit light 'jesseduffield/lazydocker'
 
-zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+zinit ice lucid wait='1' as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
 zinit light sharkdp/fd
 
-# vi-mode
+# # vi-mode
 set -o vi
 zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected text
 zinit ice lucid wait='1'
