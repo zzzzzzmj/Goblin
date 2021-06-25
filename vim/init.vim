@@ -80,7 +80,6 @@ nnoremap <c-l> <c-w><c-l>
 filetype off
 call plug#begin('~/.config/nvim/plugins')
 
-" Plug 'w0ng/vim-hybrid'
 Plug 'rakr/vim-one'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
@@ -140,20 +139,10 @@ let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
 let g:startify_session_dir = '~/.config/nvim/session'
 let g:startify_lists = [
-            \ { 'type': 'files',     'header': ['   Files'] },
-            \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
             \ { 'type': 'sessions',  'header': ['   Sessions'] },
-            \ { 'type': 'bookmarks', 'header': ['   Bookmarks'] },
+            \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+            \ { 'type': 'files',     'header': ['   Files'] },
             \]
-
-let g:startify_bookmarks = [
-            \ '~/self',
-            \ '~/self/lab',
-            \ '~/zaihui',
-            \ '~/zaihui/iris',
-            \ '~/zaihui/server',
-            \ '~/zaihui/violet',
-            \ ]
 
 " fzf
 let g:fzf_preview_window = [ 'down:60%', 'ctrl-/' ]
@@ -162,6 +151,7 @@ let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7} }
 nnoremap <silent> <leader>fr :Rg<cr>
 xnoremap <silent> <leader>fr y:Rg <c-r>"<cr>
 nnoremap <silent> <leader>ff :Files<cr>
+nnoremap <silent> <c-p> :Files<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fgf :GFiles?<cr>
 nnoremap <silent> <leader>fgb :Git blame --date=short<cr>
@@ -334,13 +324,12 @@ set nowritebackup
 set cmdheight=1
 
 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=100
+set updatetime=400
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" Always show the signcolumn, otherwise it would shift the text each time
-set signcolumn=yes
+set signcolumn=number
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -413,7 +402,8 @@ autocmd BufWritePre *.py :Format
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :silent call CocAction('runCommand', 'editor.action.organizeImport')
-" autocmd BufWritePre *.go :OR
+
+autocmd BufWritePre *.go :OR
 
 " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " If use <TAB> , <c-i> can't use  <TAB> == <c-i> ?
@@ -483,13 +473,19 @@ let test#go#runner = "gotest"
 
 
 " vim-go
-let g:go_gpls_enabled=0
-let g:go_list_type = "quickfix"
-let g:go_fmt_command = "goimports"
-let g:go_fmt_fail_silently = 0
-let g:go_fmt_autosave = 1
-let g:go_doc_popup_window = 1
-let g:go_doc_keywordprg_enabled = 0
+let g:go_gopls_enabled=0
+let g:go_def_mapping_enabled = 0
+let g:go_fmt_autosave = 0
+
+let g:go_highlight_types = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_extra_types = 1
 
 augroup go
   autocmd!
