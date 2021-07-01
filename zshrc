@@ -1,8 +1,8 @@
 # auto load tmux
 # https://github.com/romkatv/powerlevel10k/issues/1203
-if [ -z "$TMUX" ]; then
-  exec tmux new-session -A -s codespace
-fi
+# if [ -z "$TMUX" ]; then
+#   exec tmux new-session -A -s codespace
+# fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -32,8 +32,20 @@ autoload -Uz _zinit
 ### End of Zinit's installer chunk
 
 # plugins
+autoload -Uz compinit
+compinit
+
 zinit ice lucid wait='1'
 zinit light skywind3000/z.lua
+
+zinit ice lucid wait'0b' from"gh-r" as"program"
+zinit light junegunn/fzf
+
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
+zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
+
+zinit ice lucid wait='1'
+zinit light Aloxaf/fzf-tab
 
 zinit ice lucid wait='1'
 zinit light zdharma/fast-syntax-highlighting
@@ -47,15 +59,6 @@ zinit light zsh-users/zsh-completions
 
 zinit ice lucid wait='1'
 zinit light paulirish/git-open
-
-zinit ice lucid wait'0b' from"gh-r" as"program"
-zinit light junegunn/fzf
-
-zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/completion.zsh"
-zinit snippet "https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh"
-
-zinit ice lucid wait='1'
-zinit light Aloxaf/fzf-tab
 
 zinit ice lucid wait='1' as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
 zinit light sharkdp/bat
@@ -78,15 +81,6 @@ zle_highlight=(region:bg=yellow)  # highlight visual indication of the selected 
 zinit ice lucid wait='1'
 zinit light b4b4r07/zsh-vimode-visual
 zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
-
-# oh-my-zsh plugins
-zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-zinit snippet OMZ::lib/history.zsh
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::lib/grep.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
-zinit snippet OMZ::plugins/git/git.plugin.zsh
 
 # p10k theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -131,4 +125,3 @@ export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 [ -f ~/.aliases ] && source ~/.aliases
 [ -f ~/.profile ] && source ~/.profile
 [ -f ~/.bash_profile ] && source ~/.bash_profile
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
