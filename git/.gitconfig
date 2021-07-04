@@ -21,8 +21,6 @@
     mgf = merge --ff-only
     p = push
     pf = push -f
-    pua = push -u z HEAD:alpha-only -f
-    pui = push -u z HEAD:init -f
     puo = push -u o
     puz = push -u z
     plbr = pull --prune
@@ -50,7 +48,6 @@
     autocrlf = false
     ignorecase = false
     quotepath = false
-    excludesfile = ~/.gitignore
 [color]
     ui = true
 [merge]

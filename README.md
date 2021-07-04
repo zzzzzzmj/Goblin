@@ -4,14 +4,17 @@
 
 ## Install
 
-First, clone this repo
-```
-git clone https://github.com/Ackerr/dotfiles.git && cd dotfiles
-```
-
-Then, run the shell script
+First, make sure that install the `stow` command
 
 ```
-bash ./install.sh
+brew install stow
 ```
-> You can find original configuration in `~/.backup`, and remember replace `.gitconfig` email
+
+Then, clone this repo and run `make stow` to link dotfiles.
+```
+$ git clone https://github.com/Ackerr/dotfiles.git && cd dotfiles
+
+$ make stow
+```
+
+> Remember replace `.gitconfig` email

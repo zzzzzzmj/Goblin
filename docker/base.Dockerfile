@@ -10,7 +10,7 @@ RUN apt-get update && apt-get -y upgrade && \
 
 # Install Tool
 RUN apt-get install -y zsh && chsh -s /bin/zsh && \
-    apt-get install -y make git net-tools wget curl gcc htop lua5.2 ranger tmux
+    apt-get install -y make git net-tools wget curl gcc htop lua5.2 ranger tmux stow
 
 # Install neovim-nightly
 RUN wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage &&\
