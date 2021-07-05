@@ -8,7 +8,7 @@ WORKDIR $HOME
 COPY . ./.dotfiles
 
 # User Setting
-RUN cd ./.dotfiles && make stow && cd
+RUN cd ./.dotfiles && make override && cd
 
 # Init zsh
 # https://github.com/zdharma/zinit/issues/484
