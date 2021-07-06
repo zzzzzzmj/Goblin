@@ -56,6 +56,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 
 zinit ice lucid wait='1'
 zinit light zsh-users/zsh-completions
+zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
 
 zinit ice lucid wait='1'
 zinit light paulirish/git-open

@@ -22,7 +22,7 @@ set nocursorline
 syntax sync minlines=256
 set synmaxcol=300
 set re=1
-" set lazyredraw
+set lazyredraw
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -98,6 +98,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'brooth/far.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mg979/vim-visual-multi'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 " move
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }

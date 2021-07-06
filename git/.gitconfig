@@ -21,6 +21,8 @@
     mgf = merge --ff-only
     p = push
     pf = push -f
+    pua = push -u z HEAD:alpha-only -f
+    pui = push -u z HEAD:init -f
     puo = push -u o
     puz = push -u z
     plbr = pull --prune
@@ -29,7 +31,6 @@
     rbi = rebase -i
     rbd = rebase z/dev
     rs = reset HEAD^
-    back = reset --soft HEAD^
     rh = reset --hard
     rhd = reset --hard z/dev
     rroo = remote rename origin o
@@ -37,17 +38,19 @@
     squash = rebase HEAD~2 -i
     changed = update-index --no-assume-unchanged
     unchanged = update-index --assume-unchanged
-    save = stash
     slist = stash list
     spop = stash pop
     sdrop = stash drop
     sshow = stash show -p stash@{0}
-    select = stash -p
+
+    back = reset --soft HEAD^
+    cancel = restore --staged .
 [core]
     editor = nvim
     autocrlf = false
     ignorecase = false
     quotepath = false
+    excludesfile = ~/.gitignore
 [color]
     ui = true
 [merge]
