@@ -57,6 +57,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 zinit ice lucid wait='1'
 zinit light zsh-users/zsh-completions
 zinit snippet OMZ::lib/completion.zsh
+zinit snippet OMZ::lib/history.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 
 zinit ice lucid wait='1'
@@ -97,15 +98,14 @@ export BAT_THEME='Dracula'
 export EDITOR='nvim'
 
 # python
+export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
 fi
 
 if [[ -n $VIRTUAL_ENV && -e "${VIRTUAL_ENV}/bin/activate" ]]; then
   source "${VIRTUAL_ENV}/bin/activate"
 fi
-
-export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
 
 # go
 export GOPATH="$HOME/go-base"

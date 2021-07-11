@@ -23,8 +23,8 @@ RUN apt-get install -y pip python3.8 && \
 
 # Install Nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
-    apt-get install -y nodejs && \
-    npm config set registry https://registry.npm.taobao.org
+    apt-get install -y nodejs
+    # npm config set registry https://registry.npm.taobao.org
 
 # Install Golang
 RUN wget https://golang.org/dl/go1.16.4.linux-amd64.tar.gz && \
